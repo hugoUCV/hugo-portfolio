@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hugo Ferrer Plaza — 3D Generalist, Modelado, Texturizado y Experiencias VR">
+  <title>Hugo Ferrer Plaza — 3D Artist</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- Lenis smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Film grain overlay -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- ─── NAVIGATION ─────────────────────────────── -->
+  <nav id="nav" aria-label="Main navigation">
+    <a href="#hero" class="nav-logo" aria-label="Home">HFP</a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#about"   data-i18n="nav.about">Sobre mí</a></li>
+      <li><a href="#work"    data-i18n="nav.work">Proyectos</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contacto</a></li>
+    </ul>
+
+    <div class="lang-switcher" role="group" aria-label="Language selector">
+      <button class="lang-btn active" data-lang="es" aria-pressed="true">ES</button>
+      <button class="lang-btn"        data-lang="en" aria-pressed="false">EN</button>
+      <button class="lang-btn"        data-lang="va" aria-pressed="false">VAL</button>
+    </div>
+  </nav>
+
+  <!-- ─── HERO ─────────────────────────────────────── -->
+  <section id="hero" aria-labelledby="heroName">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow" data-i18n="hero.eyebrow">3D Generalist · Graduado DNAV · UCV</p>
+
+      <h1 class="hero-title" id="heroName">
+        <span class="title-line"><span class="title-word">HUGO</span></span>
+        <span class="title-line"><span class="title-word">FERRER</span></span>
+        <span class="title-line"><span class="title-word">PLAZA</span></span>
+      </h1>
+
+      <p class="hero-sub" data-i18n="hero.sub">
+        Creando mundos a través del modelado 3D, texturizado y experiencias VR
+      </p>
+
+      <a href="#work" class="hero-cta">
+        <span data-i18n="hero.cta">Explorar mi trabajo</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <span class="scroll-label" data-i18n="hero.scroll">Scroll</span>
+      <div class="scroll-track"><div class="scroll-thumb"></div></div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ────────────────────────────────────── -->
+  <section id="about" aria-labelledby="aboutTitle">
+    <div class="container">
+      <div class="about-grid">
+
+        <div class="about-left">
+          <p class="section-label" data-i18n="about.label">Sobre mí</p>
+          <h2 class="section-title" id="aboutTitle" data-i18n="about.title">
+            Artista 3D que<br>construye mundos<br>desde cero
+          </h2>
+        </div>
+
+        <div class="about-right">
+          <p class="about-bio" data-i18n="about.bio">
+            Soy un 3D Generalist recién graduado del Grado en Desarrollo de Animación y Videojuegos (DNAV) de la Universidad Católica de Valencia. Me involucro en cada paso del pipeline de producción — desde el esculpido y modelado hasta el texturizado PBR y el renderizado en tiempo real — siempre buscando assets artísticamente impactantes y técnicamente sólidos.
+          </p>
+          <p class="about-bio about-bio--dim" data-i18n="about.bio2">
+            Mi TFG, Ecos de Xàtiva, es una experiencia VR construida en Unreal Engine 5.4 para Meta Quest 3 donde ejercí como Lead Programmer: implementé sistemas de física en C++, mecánicas de interacción VR y optimización para Android standalone.
+          </p>
+
+          <div class="skills-block">
+            <p class="skills-label" data-i18n="about.skillsLabel">Herramientas y disciplinas</p>
+            <div class="skills-list">
+              <div class="skill-row">
+                <span class="skill-name">Maya</span>
+                <div class="skill-track"><div class="skill-fill" style="--pct:90%"></div></div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-name">ZBrush</span>
+                <div class="skill-track"><div class="skill-fill" style="--pct:85%"></div></div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-name">Substance Painter</span>
+                <div class="skill-track"><div class="skill-fill" style="--pct:88%"></div></div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-name">Unreal Engine 5</span>
+                <div class="skill-track"><div class="skill-fill" style="--pct:82%"></div></div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-name">Cinema 4D</span>
+                <div class="skill-track"><div class="skill-fill" style="--pct:78%"></div></div>
+              </div>
+              <div class="skill-row">
+                <span class="skill-name">C++ / Blueprints</span>
+                <div class="skill-track"><div class="skill-fill" style="--pct:72%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── WORK ──────────────────────────────────────── -->
+  <section id="work" aria-labelledby="workTitle">
+    <div class="container work-header">
+      <p class="section-label" data-i18n="work.label">Proyectos seleccionados</p>
+      <h2 class="section-title" id="workTitle" data-i18n="work.title">Proyectos</h2>
+    </div>
+
+    <!-- Pinned horizontal scroll container -->
+    <div id="projectsPin">
+      <div class="projects-track" id="projectsTrack">
+
+        <!-- 01 · Ecos de Xàtiva (FEATURED) -->
+        <article class="project-card project-card--featured" data-color="35">
+          <div class="card-glow"></div>
+          <div class="card-body">
+            <header class="card-header">
+              <span class="card-num">01</span>
+              <div class="card-tags">
+                <span class="tag">VR Experience</span>
+                <span class="tag">Unreal Engine 5</span>
+                <span class="tag">TFG 2026</span>
+              </div>
+            </header>
+            <h3 class="card-title">Ecos de<br>Xàtiva</h3>
+            <p class="card-desc" data-i18n="projects.ecos.desc">
+              Experiencia VR para Meta Quest 3 ambientada en el Castell de Xàtiva. Un sandbox histórico donde puedes blandir armas medievales, disparar cañones y explorar el patrimonio ibérico de los siglos XV–XVI. Construida con UE5.4, C++ y Blueprints.
+            </p>
+            <p class="card-role" data-i18n="projects.ecos.role">Lead Programmer · UE5 · C++ · Blueprints · Android</p>
+            <a href="https://hugoucv.github.io/ecos-de-xativa/index.html" target="_blank" rel="noopener" class="card-link">
+              <span data-i18n="projects.cta">Ver proyecto</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </a>
+          </div>
+          <div class="card-visual">
+            <!-- Replace with: <img src="images/ecos-de-xativa.jpg" alt="Ecos de Xàtiva VR"> -->
+            <div class="card-placeholder" aria-label="Ecos de Xàtiva preview">
+              <span>Ecos de Xàtiva</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02 · Mexican Town -->
+        <article class="project-card" data-color="25">
+          <div class="card-glow"></div>
+          <div class="card-body">
+            <header class="card-header">
+              <span class="card-num">02</span>
+              <div class="card-tags">
+                <span class="tag">3D Environment</span>
+                <span class="tag">Lighting</span>
+              </div>
+            </header>
+            <h3 class="card-title">Mexican<br>Town</h3>
+            <p class="card-desc" data-i18n="projects.mexican.desc">
+              Entorno de una plaza mexicana tradicional creado durante un intercambio en México. Incluye kiosco central, puestos de comida callejera y mototaxis — todo modelado e iluminado desde referencia cultural directa.
+            </p>
+            <p class="card-role">Maya · Arnold · Substance Painter</p>
+            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link">
+              <span data-i18n="projects.cta">Ver proyecto</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </a>
+          </div>
+          <div class="card-visual">
+            <!-- Replace with: <img src="images/mexican-town.jpg" alt="Mexican Town 3D Environment"> -->
+            <div class="card-placeholder"><span>Mexican Town</span></div>
+          </div>
+        </article>
+
+        <!-- 03 · Shan Yun -->
+        <article class="project-card" data-color="210">
+          <div class="card-glow"></div>
+          <div class="card-body">
+            <header class="card-header">
+              <span class="card-num">03</span>
+              <div class="card-tags">
+                <span class="tag">Character Art</span>
+                <span class="tag">Sculpting</span>
+              </div>
+            </header>
+            <h3 class="card-title">Shan Yun<br>Character</h3>
+            <p class="card-desc" data-i18n="projects.shanYun.desc">
+              Character study de alta definición que explora anatomía, expresión facial y textura superficial. Esculpido en ZBrush, texturizado con Substance Painter.
+            </p>
+            <p class="card-role">ZBrush · Substance Painter · Maya</p>
+            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link">
+              <span data-i18n="projects.cta">Ver proyecto</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </a>
+          </div>
+          <div class="card-visual">
+            <!-- Replace with: <img src="images/shan-yun.jpg" alt="Shan Yun Character Study"> -->
+            <div class="card-placeholder"><span>Shan Yun</span></div>
+          </div>
+        </article>
+
+        <!-- 04 · Porsche -->
+        <article class="project-card" data-color="0">
+          <div class="card-glow"></div>
+          <div class="card-body">
+            <header class="card-header">
+              <span class="card-num">04</span>
+              <div class="card-tags">
+                <span class="tag">3D Animation</span>
+                <span class="tag">Automotive</span>
+              </div>
+            </header>
+            <h3 class="card-title">PORSCHE<br>Cinematography</h3>
+            <p class="card-desc" data-i18n="projects.porsche.desc">
+              Pieza cinematográfica 3D que combina diseño automovilístico y storytelling. Centrada en la composición de cámara, el mood de iluminación y el timing del movimiento para lograr una animación de nivel comercial.
+            </p>
+            <p class="card-role">Cinema 4D · Redshift · After Effects</p>
+            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link">
+              <span data-i18n="projects.cta">Ver proyecto</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </a>
+          </div>
+          <div class="card-visual">
+            <!-- Replace with: <img src="images/porsche.jpg" alt="Porsche Cinematography 3D"> -->
+            <div class="card-placeholder"><span>PORSCHE</span></div>
+          </div>
+        </article>
+
+        <!-- 05 · Cinema 4D Showcase -->
+        <article class="project-card" data-color="270">
+          <div class="card-glow"></div>
+          <div class="card-body">
+            <header class="card-header">
+              <span class="card-num">05</span>
+              <div class="card-tags">
+                <span class="tag">Props Design</span>
+                <span class="tag">Cinema 4D</span>
+              </div>
+            </header>
+            <h3 class="card-title">Cinema 4D<br>Showcase</h3>
+            <p class="card-desc" data-i18n="projects.c4d.desc">
+              Showcase técnico y creativo de modelado hard-surface en Cinema 4D. Cubre modelado procedimental, sistemas MoGraph y renderizado físico.
+            </p>
+            <p class="card-role">Cinema 4D · MoGraph · Redshift</p>
+            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link">
+              <span data-i18n="projects.cta">Ver proyecto</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </a>
+          </div>
+          <div class="card-visual">
+            <!-- Replace with: <img src="images/c4d-showcase.jpg" alt="Cinema 4D Technical Showcase"> -->
+            <div class="card-placeholder"><span>C4D Showcase</span></div>
+          </div>
+        </article>
+
+        <!-- 06 · Stylized Pencil Tank -->
+        <article class="project-card" data-color="130">
+          <div class="card-glow"></div>
+          <div class="card-body">
+            <header class="card-header">
+              <span class="card-num">06</span>
+              <div class="card-tags">
+                <span class="tag">Stylized Art</span>
+                <span class="tag">Hard Surface</span>
+              </div>
+            </header>
+            <h3 class="card-title">Creative<br>Artillery</h3>
+            <p class="card-desc" data-i18n="projects.tank.desc">
+              Tanque de lápiz estilizado que combina sensibilidad ilustrativa con craft 3D. Una exploración del lenguaje de diseño no-fotorrealista aplicado a un sujeto hard-surface.
+            </p>
+            <p class="card-role">Maya · Substance Painter · Marmoset</p>
+            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link">
+              <span data-i18n="projects.cta">Ver proyecto</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M7 17L17 7M17 7H7M17 7v10"/>
+              </svg>
+            </a>
+          </div>
+          <div class="card-visual">
+            <!-- Replace with: <img src="images/pencil-tank.jpg" alt="Stylized Pencil Tank"> -->
+            <div class="card-placeholder"><span>Creative Artillery</span></div>
+          </div>
+        </article>
+
+      </div><!-- /projects-track -->
+    </div><!-- /projectsPin -->
+  </section>
+
+  <!-- ─── CONTACT ───────────────────────────────────── -->
+  <section id="contact" aria-labelledby="contactTitle">
+    <div class="container">
+      <p class="section-label" data-i18n="contact.label">Hablemos</p>
+      <h2 class="contact-big" id="contactTitle" data-i18n="contact.title">
+        Creemos algo<br>juntos
+      </h2>
+
+      <a href="mailto:zizekrp02@gmail.com" class="contact-email">
+        zizekrp02@gmail.com
+      </a>
+
+      <div class="contact-links">
+        <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="ext-link">
+          <span>Behance Portfolio</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+        </a>
+        <a href="https://hugoucv.github.io/ecos-de-xativa/index.html" target="_blank" rel="noopener" class="ext-link">
+          <span>Ecos de Xàtiva</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M7 17L17 7M17 7H7M17 7v10"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <p>© 2026 Hugo Ferrer Plaza</p>
+      <p data-i18n="footer.made">Construido con ♥ y demasiados polígonos</p>
+    </footer>
+  </section>
+
+  <!-- Scripts: order matters -->
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/three-bg.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
