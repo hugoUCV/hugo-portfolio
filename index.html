@@ -1,584 +1,353 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Hugo Ferrer Plaza — 3D Generalist, Modelado, Texturizado y Experiencias VR">
-  <title>Hugo Ferrer Plaza — 3D Artist</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hugo Ferrer Plaza — 3D Generalist</title>
+  <meta name="description" content="Portfolio de Hugo Ferrer Plaza, 3D Generalist de Valencia. Modelado, texturizado, lookdev y experiencias VR en Unreal Engine 5." />
+  <meta name="theme-color" content="#0a0a0c" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Hugo Ferrer Plaza — 3D Generalist" />
+  <meta property="og:description" content="Construyendo mundos en 3D — modelado, texturizado y experiencias VR." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/ecos/CampoEntrenamiento1.jpg" />
 
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <!-- Grain + progress + cursor -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- ═══════════ NAV ═══════════ -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav-logo magnetic" aria-label="Hugo Ferrer Plaza — inicio">
+      <svg class="logo-mark" viewBox="0 0 40 40" width="34" height="34" aria-hidden="true">
+        <path d="M20 2 L35 11 L35 29 L20 38 L5 29 L5 11 Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M13 13 L13 27 M13 20 L27 20 M27 13 L27 27" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/>
+        <circle cx="20" cy="20" r="2.1" fill="var(--accent)"/>
+      </svg>
+      <span class="logo-word">Hugo Ferrer</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#work" data-i18n="nav.work">Trabajo</a>
+      <a href="#about" data-i18n="nav.about">Sobre mí</a>
+      <a href="#contact" data-i18n="nav.contact">Contacto</a>
+    </nav>
+
+    <div class="nav-right">
+      <span class="avail-pill">
+        <span class="avail-dot"></span>
+        <span data-i18n="avail">Disponible para prácticas</span>
+      </span>
+      <div class="lang-switcher" role="group" aria-label="Idioma">
+        <button class="lang-btn" data-lang="es" aria-pressed="true">ES</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        <button class="lang-btn" data-lang="va" aria-pressed="false">VAL</button>
+      </div>
+      <a href="#contact" class="nav-cta magnetic" data-i18n="nav.cta">Hablemos</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menú" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════════ MOBILE MENU ═══════════ -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <nav class="mobile-nav-links" aria-label="Móvil">
+      <a href="#work" data-i18n="nav.work">Trabajo</a>
+      <a href="#about" data-i18n="nav.about">Sobre mí</a>
+      <a href="#contact" data-i18n="nav.contact">Contacto</a>
+    </nav>
+    <div class="mobile-lang lang-switcher" role="group" aria-label="Idioma">
+      <button class="lang-btn" data-lang="es">ES</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="va">VAL</button>
+    </div>
+    <span class="mobile-avail"><span class="avail-dot"></span><span data-i18n="avail">Disponible para prácticas</span></span>
+  </div>
+
+  <main id="top">
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero" id="hero">
+      <div class="hero-grid-bg" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <p class="hero-eyebrow mono"><span class="avail-dot"></span><span data-i18n="hero.eyebrow">3D Generalist · Graduado DNAV · UCV</span></p>
+
+        <h1 class="hero-title">
+          <span class="line"><span class="word">Hugo</span></span>
+          <span class="line"><span class="word">Ferrer</span></span>
+          <span class="line"><span class="word">Plaza</span></span>
+        </h1>
+
+        <p class="hero-cycle">
+          <span class="mono" data-i18n="hero.cyclePre">Diseño y</span>
+          <span class="cycle-wrap"><span class="cycle-word" id="cycleWord">modelo</span></span>
+          <span class="mono" data-i18n="hero.cyclePost">mundos en 3D</span>
+        </p>
+
+        <p class="hero-sub" data-i18n="hero.sub">Soy Hugo Ferrer Plaza, artista 3D de Valencia. Construyo entornos, props y experiencias VR cuidando cada paso del pipeline — del esculpido al render en tiempo real.</p>
+
+        <div class="hero-cta-row">
+          <a href="#work" class="btn btn-primary magnetic" data-i18n="hero.ctaWork">Ver proyectos</a>
+          <a href="#contact" class="btn btn-ghost magnetic" data-i18n="hero.ctaContact">Contacto</a>
+        </div>
+      </div>
+
+      <div class="hero-foot mono">
+        <span data-i18n="hero.metaLoc">Valencia, España</span>
+        <span class="hero-scroll"><span data-i18n="hero.scroll">Desliza</span> <span class="scroll-line"></span></span>
+        <span>© 2026</span>
+      </div>
+    </section>
+
+    <!-- ═══════════ TOOLS TICKER ═══════════ -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <div class="ticker-row">
+          <span>Maya</span><i>✦</i><span>ZBrush</span><i>✦</i><span>Substance Painter</span><i>✦</i><span>Unreal Engine 5</span><i>✦</i><span>Blender</span><i>✦</i><span>Cinema 4D</span><i>✦</i><span>Marmoset</span><i>✦</i><span>C++</span><i>✦</i><span>Photoshop</span><i>✦</i>
+        </div>
+        <div class="ticker-row">
+          <span>Maya</span><i>✦</i><span>ZBrush</span><i>✦</i><span>Substance Painter</span><i>✦</i><span>Unreal Engine 5</span><i>✦</i><span>Blender</span><i>✦</i><span>Cinema 4D</span><i>✦</i><span>Marmoset</span><i>✦</i><span>C++</span><i>✦</i><span>Photoshop</span><i>✦</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ CAPABILITIES ═══════════ -->
+    <section class="caps section-light" id="caps">
+      <div class="section-head">
+        <span class="section-label mono" data-i18n="caps.label">( Lo que hago )</span>
+        <h2 class="section-title" data-i18n="caps.title">Capacidades</h2>
+        <p class="section-intro" data-i18n="caps.intro">Un perfil generalista que cubre el pipeline completo, del concepto al asset final.</p>
+      </div>
+
+      <div class="caps-grid">
+        <article class="cap-card">
+          <span class="cap-num mono">01</span>
+          <svg class="cap-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 L28 10 V22 L16 29 L4 22 V10 Z M16 3 V16 M16 16 L28 10 M16 16 L4 10" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+          <h3 data-i18n="caps.items.0.t">Modelado 3D</h3>
+          <p data-i18n="caps.items.0.d"></p>
+        </article>
+        <article class="cap-card">
+          <span class="cap-num mono">02</span>
+          <svg class="cap-icon" viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="22" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M5 14 H27 M14 5 V27" stroke="currentColor" stroke-width="1.3"/><circle cx="9.5" cy="9.5" r="1.4" fill="currentColor"/></svg>
+          <h3 data-i18n="caps.items.1.t">Texturizado PBR</h3>
+          <p data-i18n="caps.items.1.d"></p>
+        </article>
+        <article class="cap-card">
+          <span class="cap-num mono">03</span>
+          <svg class="cap-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 12 a6 6 0 0 1 6-6 h14 a6 6 0 0 1 6 6 v3 a6 6 0 0 1-6 6 h-3 l-5 5 v-5 H9 a6 6 0 0 1-6-6 Z" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="13" r="1.5" fill="currentColor"/><circle cx="20" cy="13" r="1.5" fill="currentColor"/></svg>
+          <h3 data-i18n="caps.items.2.t">Desarrollo VR</h3>
+          <p data-i18n="caps.items.2.d"></p>
+        </article>
+        <article class="cap-card">
+          <span class="cap-num mono">04</span>
+          <svg class="cap-icon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="6" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M16 2 V7 M16 25 V30 M2 16 H7 M25 16 H30 M6 6 L9.5 9.5 M22.5 22.5 L26 26 M26 6 L22.5 9.5 M9.5 22.5 L6 26" stroke="currentColor" stroke-width="1.3"/></svg>
+          <h3 data-i18n="caps.items.3.t">Lookdev & Render</h3>
+          <p data-i18n="caps.items.3.d"></p>
+        </article>
+        <article class="cap-card">
+          <span class="cap-num mono">05</span>
+          <svg class="cap-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 26 C8 14 14 5 22 4 C23 12 18 23 8 26 Z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 26 L4 28 M12 18 L16 20" stroke="currentColor" stroke-width="1.3"/></svg>
+          <h3 data-i18n="caps.items.4.t">Esculpido</h3>
+          <p data-i18n="caps.items.4.d"></p>
+        </article>
+        <article class="cap-card">
+          <span class="cap-num mono">06</span>
+          <svg class="cap-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4 L26 16 L16 28 L6 16 Z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M11 16 L16 21 L21 16 L16 11 Z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+          <h3 data-i18n="caps.items.5.t">Tiempo real</h3>
+          <p data-i18n="caps.items.5.d"></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══════════ ABOUT ═══════════ -->
+    <section class="about section-light" id="about">
+      <div class="about-head">
+        <span class="section-label mono" data-i18n="about.label">( Sobre mí )</span>
+        <h2 class="section-title about-title" data-i18n="about.title">Artista 3D que construye mundos desde cero</h2>
+      </div>
+
+      <div class="about-body">
+        <div class="about-bios">
+          <p class="about-bio lead" data-i18n="about.bio"></p>
+          <p class="about-bio" data-i18n="about.bio2"></p>
+          <div class="about-stats">
+            <div class="stat"><span class="stat-num mono" data-i18n="about.stats.0.n">6</span><span class="stat-lab" data-i18n="about.stats.0.l">Proyectos</span></div>
+            <div class="stat"><span class="stat-num mono" data-i18n="about.stats.1.n">8+</span><span class="stat-lab" data-i18n="about.stats.1.l">Herramientas</span></div>
+            <div class="stat"><span class="stat-num mono" data-i18n="about.stats.2.n">1</span><span class="stat-lab" data-i18n="about.stats.2.l">Experiencia VR</span></div>
+          </div>
+        </div>
+
+        <div class="timeline">
+          <span class="timeline-title mono" data-i18n="about.timelineTitle">Trayectoria</span>
+          <div class="timeline-item">
+            <span class="tl-year mono" data-i18n="about.timeline.0.y"></span>
+            <h4 data-i18n="about.timeline.0.t"></h4>
+            <p data-i18n="about.timeline.0.d"></p>
+          </div>
+          <div class="timeline-item">
+            <span class="tl-year mono" data-i18n="about.timeline.1.y"></span>
+            <h4 data-i18n="about.timeline.1.t"></h4>
+            <p data-i18n="about.timeline.1.d"></p>
+          </div>
+          <div class="timeline-item">
+            <span class="tl-year mono" data-i18n="about.timeline.2.y"></span>
+            <h4 data-i18n="about.timeline.2.t"></h4>
+            <p data-i18n="about.timeline.2.d"></p>
+          </div>
+          <div class="timeline-item">
+            <span class="tl-year mono" data-i18n="about.timeline.3.y"></span>
+            <h4 data-i18n="about.timeline.3.t"></h4>
+            <p data-i18n="about.timeline.3.d"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ FEATURED — ECOS DE XÀTIVA (dark) ═══════════ -->
+    <section class="featured section-dark" id="work">
+      <div class="featured-head">
+        <span class="section-label mono accent" data-i18n="featured.label">( Proyecto destacado )</span>
+        <h2 class="featured-title" data-i18n="featured.title">Ecos de Xàtiva</h2>
+        <p class="featured-meta mono" data-i18n="featured.meta">Lead Programmer · UE5.4 · C++ · Blueprints · Android</p>
+        <p class="featured-desc" data-i18n="featured.desc"></p>
+        <a href="https://hugoucv.github.io/ecos-de-xativa/index.html" target="_blank" rel="noopener" class="btn btn-accent magnetic">
+          <span data-i18n="featured.live">Ver demo en vivo</span>
+          <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M5 15 L15 5 M7 5 H15 V13" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+        </a>
+      </div>
+
+      <figure class="featured-hero reveal-img">
+        <img src="images/ecos/CampoEntrenamiento1.jpg" alt="Campo de entrenamiento medieval en Ecos de Xàtiva — escena VR en Unreal Engine 5" loading="lazy" />
+      </figure>
+
+      <div class="featured-gallery">
+        <figure class="gal gal-tall reveal-img"><img src="images/ecos/EspadaRender.jpg" alt="Render de espada medieval" loading="lazy" /></figure>
+        <figure class="gal reveal-img"><img src="images/ecos/MuseoInterior1.jpg" alt="Interior del museo virtual" loading="lazy" /></figure>
+        <figure class="gal reveal-img"><img src="images/ecos/Cannon.jpg" alt="Cañón histórico modelado en 3D" loading="lazy" /></figure>
+        <figure class="gal reveal-img"><img src="images/ecos/Ballesta4k.jpg" alt="Ballesta a 4K" loading="lazy" /></figure>
+        <figure class="gal reveal-img"><img src="images/ecos/MenuInicio.jpg" alt="Menú de inicio de la experiencia VR" loading="lazy" /></figure>
+        <figure class="gal gal-wide reveal-img"><img src="images/ecos/PropsModularesShowcase.jpg" alt="Showcase de props modulares" loading="lazy" /></figure>
+        <figure class="gal reveal-img"><img src="images/ecos/PersonajeGuia.jpg" alt="Personaje guía de la experiencia" loading="lazy" /></figure>
+        <figure class="gal reveal-img"><img src="images/ecos/ArmaduraEscudo.jpg" alt="Armadura y escudo" loading="lazy" /></figure>
+        <figure class="gal gal-wide reveal-img"><img src="images/ecos/MuseoInterior2.jpg" alt="Segunda sala del museo virtual" loading="lazy" /></figure>
+      </div>
+    </section>
+
+    <!-- ═══════════ MORE PROJECTS (dark) ═══════════ -->
+    <section class="projects section-dark" id="projects">
+      <div class="section-head">
+        <span class="section-label mono accent" data-i18n="work.label">( Más trabajo )</span>
+        <h2 class="section-title" data-i18n="work.title">Proyectos</h2>
+      </div>
+
+      <div class="proj-grid">
+        <article class="proj-card" data-tilt>
+          <a href="https://hugoferrerplaza.myportfolio.com/mexican-town" target="_blank" rel="noopener" class="proj-link">
+            <div class="proj-media"><img src="images/behance/mexican.jpg" alt="Mexican Town — entorno 3D" loading="lazy" /></div>
+            <div class="proj-info">
+              <div class="proj-toprow"><h3 data-i18n="projects.mexican.t">Mexican Town</h3><span class="proj-tag mono" data-i18n="projects.mexican.tag"></span></div>
+              <p data-i18n="projects.mexican.d"></p>
+              <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="proj-card" data-tilt>
+          <a href="https://hugoferrerplaza.myportfolio.com/shan-yun-character-study" target="_blank" rel="noopener" class="proj-link">
+            <div class="proj-media proj-media-contain"><img src="images/behance/shanyun.jpg" alt="Shan Yun — character study" loading="lazy" /></div>
+            <div class="proj-info">
+              <div class="proj-toprow"><h3 data-i18n="projects.shanYun.t">Shan Yun</h3><span class="proj-tag mono" data-i18n="projects.shanYun.tag"></span></div>
+              <p data-i18n="projects.shanYun.d"></p>
+              <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="proj-card" data-tilt>
+          <a href="https://hugoferrerplaza.myportfolio.com/porsche-cinematography-storytelling" target="_blank" rel="noopener" class="proj-link">
+            <div class="proj-media proj-media-video">
+              <div class="video-badge mono"><span class="play-tri"></span><span data-i18n="work.video">Proyecto en vídeo</span></div>
+            </div>
+            <div class="proj-info">
+              <div class="proj-toprow"><h3 data-i18n="projects.porsche.t">PORSCHE</h3><span class="proj-tag mono" data-i18n="projects.porsche.tag"></span></div>
+              <p data-i18n="projects.porsche.d"></p>
+              <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="proj-card" data-tilt>
+          <a href="https://hugoferrerplaza.myportfolio.com/cinema-4d-technical-creative-showcase" target="_blank" rel="noopener" class="proj-link">
+            <div class="proj-media proj-media-contain"><img src="images/behance/c4d.jpg" alt="Cinema 4D Showcase" loading="lazy" /></div>
+            <div class="proj-info">
+              <div class="proj-toprow"><h3 data-i18n="projects.c4d.t">Cinema 4D Showcase</h3><span class="proj-tag mono" data-i18n="projects.c4d.tag"></span></div>
+              <p data-i18n="projects.c4d.d"></p>
+              <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
+            </div>
+          </a>
+        </article>
+
+        <article class="proj-card proj-card-wide" data-tilt>
+          <a href="https://hugoferrerplaza.myportfolio.com/creative-artillery-stylized-pencil-tank" target="_blank" rel="noopener" class="proj-link">
+            <div class="proj-media"><img src="images/behance/tank.jpg" alt="Creative Artillery — tanque estilizado" loading="lazy" /></div>
+            <div class="proj-info">
+              <div class="proj-toprow"><h3 data-i18n="projects.tank.t">Creative Artillery</h3><span class="proj-tag mono" data-i18n="projects.tank.tag"></span></div>
+              <p data-i18n="projects.tank.d"></p>
+              <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
+            </div>
+          </a>
+        </article>
+      </div>
+
+      <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="view-all mono">
+        <span data-i18n="work.viewAll">Ver portfolio completo</span> →
+      </a>
+    </section>
+
+    <!-- ═══════════ CONTACT (dark) ═══════════ -->
+    <section class="contact section-dark" id="contact">
+      <span class="section-label mono accent" data-i18n="contact.label">( Hablemos )</span>
+      <h2 class="contact-big" data-i18n="contact.title">Creemos algo juntos</h2>
+      <p class="contact-sub" data-i18n="contact.sub"></p>
+
+      <a href="mailto:zizekrp02@gmail.com" class="contact-email magnetic">zizekrp02@gmail.com</a>
+
+      <div class="contact-links">
+        <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="ext-link">Adobe Portfolio</a>
+        <a href="https://github.com/hugoUCV" target="_blank" rel="noopener" class="ext-link">GitHub</a>
+        <a href="https://hugoucv.github.io/ecos-de-xativa/index.html" target="_blank" rel="noopener" class="ext-link">Ecos de Xàtiva</a>
+      </div>
+    </section>
+
+    <!-- ═══════════ FOOTER ═══════════ -->
+    <footer class="site-footer section-dark">
+      <span class="mono" data-i18n="footer.made">Diseñado y construido por Hugo Ferrer Plaza</span>
+      <span class="mono">Valencia · 2026</span>
+      <a href="#top" class="to-top mono" data-i18n="footer.top">Volver arriba</a>
+    </footer>
+  </main>
+
+  <!-- Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 
-  <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
-
-  <!-- Film grain -->
-  <div class="grain" aria-hidden="true"></div>
-
-  <!-- Scroll progress bar -->
-  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
-
-  <!-- Custom cursor -->
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
-  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-
-  <!-- ─── MOBILE MENU OVERLAY ─── -->
-  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <div class="mobile-menu-inner">
-      <ul class="mobile-nav-links" role="list">
-        <li><a href="#about"   data-i18n="nav.about">Sobre mí</a></li>
-        <li><a href="#work"    data-i18n="nav.work">Proyectos</a></li>
-        <li><a href="#contact" data-i18n="nav.contact">Contacto</a></li>
-      </ul>
-      <div class="mobile-lang">
-        <button class="lang-btn active" data-lang="es" aria-pressed="true">ES</button>
-        <button class="lang-btn"        data-lang="en" aria-pressed="false">EN</button>
-        <button class="lang-btn"        data-lang="va" aria-pressed="false">VAL</button>
-      </div>
-      <!-- SVG decoration inside mobile menu -->
-      <svg class="mobile-menu-deco" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-        <polygon points="100,10 190,55 190,145 100,190 10,145 10,55" stroke="rgba(232,184,109,0.12)" stroke-width="1"/>
-        <polygon points="100,30 170,65 170,135 100,170 30,135 30,65" stroke="rgba(232,184,109,0.07)" stroke-width="1"/>
-        <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(232,184,109,0.06)" stroke-width="1"/>
-        <line x1="10"  y1="55"  x2="190" y2="145" stroke="rgba(232,184,109,0.06)" stroke-width="1"/>
-        <line x1="10"  y1="145" x2="190" y2="55"  stroke="rgba(232,184,109,0.06)" stroke-width="1"/>
-        <circle cx="100" cy="100" r="4" fill="rgba(232,184,109,0.4)"/>
-      </svg>
-    </div>
-  </div>
-
-  <!-- ─── NAVIGATION ─── -->
-  <nav id="nav" aria-label="Navigation">
-    <!-- Logo SVG mark -->
-    <a href="#hero" class="nav-logo" aria-label="Hugo Ferrer Plaza — Home">
-      <svg class="logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="currentColor" stroke-width="1.5" fill="none"/>
-        <line x1="16" y1="2"  x2="16" y2="30" stroke="currentColor" stroke-width="1" opacity="0.4"/>
-        <line x1="2"  y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="1" opacity="0.4"/>
-        <line x1="2"  y1="10" x2="30" y2="22" stroke="var(--accent)" stroke-width="1" opacity="0.6"/>
-        <circle cx="16" cy="2"  r="1.5" fill="var(--accent)"/>
-        <circle cx="30" cy="10" r="1"   fill="currentColor" opacity="0.5"/>
-        <circle cx="30" cy="22" r="1"   fill="currentColor" opacity="0.5"/>
-        <circle cx="16" cy="30" r="1.5" fill="currentColor" opacity="0.3"/>
-        <circle cx="2"  cy="22" r="1"   fill="currentColor" opacity="0.5"/>
-        <circle cx="2"  cy="10" r="1"   fill="currentColor" opacity="0.5"/>
-      </svg>
-      <span class="logo-text">HFP</span>
-    </a>
-
-    <ul class="nav-links" role="list">
-      <li><a href="#about"   data-i18n="nav.about">Sobre mí</a></li>
-      <li><a href="#work"    data-i18n="nav.work">Proyectos</a></li>
-      <li><a href="#contact" data-i18n="nav.contact">Contacto</a></li>
-    </ul>
-
-    <div class="nav-right">
-      <div class="lang-switcher" role="group" aria-label="Idioma">
-        <button class="lang-btn active" data-lang="es" aria-pressed="true">ES</button>
-        <button class="lang-btn"        data-lang="en" aria-pressed="false">EN</button>
-        <button class="lang-btn"        data-lang="va" aria-pressed="false">VAL</button>
-      </div>
-      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
-        <span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- ─── HERO ─── -->
-  <section id="hero">
-    <canvas id="heroCanvas" aria-hidden="true"></canvas>
-
-    <!-- SVG geometric decoration top-right -->
-    <svg class="hero-deco" viewBox="0 0 300 300" fill="none" aria-hidden="true">
-      <circle cx="150" cy="150" r="120" stroke="rgba(232,184,109,0.06)" stroke-width="1"/>
-      <circle cx="150" cy="150" r="80"  stroke="rgba(232,184,109,0.04)" stroke-width="1"/>
-      <line x1="30" y1="150" x2="270" y2="150" stroke="rgba(232,184,109,0.04)" stroke-width="1"/>
-      <line x1="150" y1="30" x2="150" y2="270" stroke="rgba(232,184,109,0.04)" stroke-width="1"/>
-      <line x1="65"  y1="65"  x2="235" y2="235" stroke="rgba(232,184,109,0.03)" stroke-width="1"/>
-      <line x1="235" y1="65"  x2="65"  y2="235" stroke="rgba(232,184,109,0.03)" stroke-width="1"/>
-      <circle cx="150" cy="30"  r="3" fill="rgba(232,184,109,0.5)"/>
-      <circle cx="270" cy="150" r="2" fill="rgba(232,184,109,0.3)"/>
-      <circle cx="150" cy="270" r="2" fill="rgba(232,184,109,0.2)"/>
-    </svg>
-
-    <div class="hero-content">
-      <p class="hero-eyebrow" data-i18n="hero.eyebrow" aria-label="3D Generalist · Graduado DNAV · UCV">
-        3D Generalist · Graduado DNAV · UCV
-      </p>
-      <h1 class="hero-title" id="heroName">
-        <span class="title-line"><span class="title-word">HUGO</span></span>
-        <span class="title-line"><span class="title-word">FERRER</span></span>
-        <span class="title-line"><span class="title-word">PLAZA</span></span>
-      </h1>
-      <p class="hero-sub" data-i18n="hero.sub">
-        Creando mundos a través del modelado 3D, texturizado y experiencias VR
-      </p>
-      <a href="#work" class="hero-cta magnetic">
-        <span data-i18n="hero.cta">Explorar mi trabajo</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-          <path d="M12 5v14M5 12l7 7 7-7"/>
-        </svg>
-      </a>
-    </div>
-
-    <div class="scroll-indicator" aria-hidden="true">
-      <span class="scroll-label" data-i18n="hero.scroll">Scroll</span>
-      <div class="scroll-track"><div class="scroll-thumb"></div></div>
-    </div>
-  </section>
-
-  <!-- ─── MARQUEE STRIP ─── -->
-  <div class="marquee-strip" aria-hidden="true">
-    <div class="marquee-track">
-      <div class="marquee-inner">
-        <span>Modelado 3D</span><i>·</i>
-        <span>Texturizado PBR</span><i>·</i>
-        <span>VR Experience</span><i>·</i>
-        <span>Unreal Engine 5</span><i>·</i>
-        <span>ZBrush</span><i>·</i>
-        <span>Maya</span><i>·</i>
-        <span>Substance Painter</span><i>·</i>
-        <span>Cinema 4D</span><i>·</i>
-        <span>C++ Blueprints</span><i>·</i>
-        <span>Sculpting</span><i>·</i>
-        <span>Hard Surface</span><i>·</i>
-        <span>Rendering</span><i>·</i>
-      </div>
-      <!-- duplicate for seamless loop -->
-      <div class="marquee-inner" aria-hidden="true">
-        <span>Modelado 3D</span><i>·</i>
-        <span>Texturizado PBR</span><i>·</i>
-        <span>VR Experience</span><i>·</i>
-        <span>Unreal Engine 5</span><i>·</i>
-        <span>ZBrush</span><i>·</i>
-        <span>Maya</span><i>·</i>
-        <span>Substance Painter</span><i>·</i>
-        <span>Cinema 4D</span><i>·</i>
-        <span>C++ Blueprints</span><i>·</i>
-        <span>Sculpting</span><i>·</i>
-        <span>Hard Surface</span><i>·</i>
-        <span>Rendering</span><i>·</i>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── ABOUT ─── -->
-  <section id="about">
-    <!-- SVG dot grid decoration -->
-    <svg class="about-deco-dots" viewBox="0 0 200 300" fill="none" aria-hidden="true">
-      <g opacity="0.25">
-        <circle cx="10"  cy="10"  r="1.5" fill="var(--accent)"/>
-        <circle cx="40"  cy="10"  r="1.5" fill="var(--accent)"/>
-        <circle cx="70"  cy="10"  r="1.5" fill="var(--accent)"/>
-        <circle cx="100" cy="10"  r="1.5" fill="var(--accent)"/>
-        <circle cx="130" cy="10"  r="1.5" fill="var(--accent)"/>
-        <circle cx="160" cy="10"  r="1.5" fill="var(--accent)"/>
-        <circle cx="190" cy="10"  r="1.5" fill="var(--accent)"/>
-        <circle cx="10"  cy="50"  r="1.5" fill="var(--accent)"/>
-        <circle cx="40"  cy="50"  r="1.5" fill="var(--accent)"/>
-        <circle cx="70"  cy="50"  r="1.5" fill="var(--accent)"/>
-        <circle cx="100" cy="50"  r="1.5" fill="var(--accent)"/>
-        <circle cx="130" cy="50"  r="1.5" fill="var(--accent)"/>
-        <circle cx="160" cy="50"  r="1.5" fill="var(--accent)"/>
-        <circle cx="190" cy="50"  r="1.5" fill="var(--accent)"/>
-        <circle cx="10"  cy="90"  r="1.5" fill="var(--accent)"/>
-        <circle cx="40"  cy="90"  r="1.5" fill="var(--accent)"/>
-        <circle cx="70"  cy="90"  r="1.5" fill="var(--accent)"/>
-        <circle cx="100" cy="90"  r="1.5" fill="var(--accent)"/>
-        <circle cx="130" cy="90"  r="1.5" fill="var(--accent)"/>
-        <circle cx="160" cy="90"  r="1.5" fill="var(--accent)"/>
-        <circle cx="190" cy="90"  r="1.5" fill="var(--accent)"/>
-        <circle cx="10"  cy="130" r="1.5" fill="var(--accent)"/>
-        <circle cx="40"  cy="130" r="1.5" fill="var(--accent)"/>
-        <circle cx="70"  cy="130" r="1.5" fill="var(--accent)"/>
-        <circle cx="100" cy="130" r="1.5" fill="var(--accent)"/>
-        <circle cx="130" cy="130" r="1.5" fill="var(--accent)"/>
-        <circle cx="160" cy="130" r="1.5" fill="var(--accent)"/>
-        <circle cx="190" cy="130" r="1.5" fill="var(--accent)"/>
-        <circle cx="10"  cy="170" r="1.5" fill="var(--accent)"/>
-        <circle cx="40"  cy="170" r="1.5" fill="var(--accent)"/>
-        <circle cx="70"  cy="170" r="1.5" fill="var(--accent)"/>
-        <circle cx="100" cy="170" r="1.5" fill="var(--accent)"/>
-        <circle cx="130" cy="170" r="1.5" fill="var(--accent)"/>
-        <circle cx="160" cy="170" r="1.5" fill="var(--accent)"/>
-        <circle cx="190" cy="170" r="1.5" fill="var(--accent)"/>
-        <circle cx="10"  cy="210" r="1.5" fill="var(--accent)"/>
-        <circle cx="40"  cy="210" r="1.5" fill="var(--accent)"/>
-        <circle cx="70"  cy="210" r="1.5" fill="var(--accent)"/>
-        <circle cx="100" cy="210" r="1.5" fill="var(--accent)"/>
-        <circle cx="130" cy="210" r="1.5" fill="var(--accent)"/>
-        <circle cx="160" cy="210" r="1.5" fill="var(--accent)"/>
-        <circle cx="190" cy="210" r="1.5" fill="var(--accent)"/>
-        <circle cx="10"  cy="250" r="1.5" fill="var(--accent)"/>
-        <circle cx="40"  cy="250" r="1.5" fill="var(--accent)"/>
-        <circle cx="70"  cy="250" r="1.5" fill="var(--accent)"/>
-        <circle cx="100" cy="250" r="1.5" fill="var(--accent)"/>
-        <circle cx="130" cy="250" r="1.5" fill="var(--accent)"/>
-        <circle cx="160" cy="250" r="1.5" fill="var(--accent)"/>
-        <circle cx="190" cy="250" r="1.5" fill="var(--accent)"/>
-        <circle cx="10"  cy="290" r="1.5" fill="var(--accent)"/>
-        <circle cx="40"  cy="290" r="1.5" fill="var(--accent)"/>
-        <circle cx="70"  cy="290" r="1.5" fill="var(--accent)"/>
-        <circle cx="100" cy="290" r="1.5" fill="var(--accent)"/>
-        <circle cx="130" cy="290" r="1.5" fill="var(--accent)"/>
-        <circle cx="160" cy="290" r="1.5" fill="var(--accent)"/>
-        <circle cx="190" cy="290" r="1.5" fill="var(--accent)"/>
-      </g>
-    </svg>
-
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-left">
-          <p class="section-label" data-i18n="about.label">Sobre mí</p>
-          <h2 class="section-title" id="aboutTitle" data-i18n="about.title">
-            Artista 3D que<br>construye mundos<br>desde cero
-          </h2>
-        </div>
-
-        <div class="about-right">
-          <p class="about-bio" data-i18n="about.bio">
-            Soy un 3D Generalist recién graduado del Grado en Desarrollo de Animación y Videojuegos (DNAV) de la Universidad Católica de Valencia. Me involucro en cada paso del pipeline de producción — desde el esculpido y modelado hasta el texturizado PBR y el renderizado en tiempo real.
-          </p>
-          <p class="about-bio about-bio--dim" data-i18n="about.bio2">
-            Mi TFG, Ecos de Xàtiva, es una experiencia VR construida en Unreal Engine 5.4 para Meta Quest 3 donde ejercí como Lead Programmer, implementando sistemas de física en C++, mecánicas VR y optimización Android.
-          </p>
-
-          <!-- Stats -->
-          <div class="stats-row">
-            <div class="stat-item">
-              <span class="stat-num" data-count="6">0</span>
-              <span class="stat-label" data-i18n="about.statProjects">Proyectos</span>
-            </div>
-            <div class="stat-divider" aria-hidden="true"></div>
-            <div class="stat-item">
-              <span class="stat-num" data-count="4">0</span>
-              <span class="stat-label" data-i18n="about.statSoftware">Software</span>
-            </div>
-            <div class="stat-divider" aria-hidden="true"></div>
-            <div class="stat-item">
-              <span class="stat-num stat-text">VR</span>
-              <span class="stat-label">TFG 2026</span>
-            </div>
-          </div>
-
-          <div class="skills-block">
-            <p class="skills-label" data-i18n="about.skillsLabel">Herramientas y disciplinas</p>
-            <div class="skills-list">
-              <div class="skill-row">
-                <span class="skill-name">Maya</span>
-                <div class="skill-track"><div class="skill-fill" style="--pct:90%"></div></div>
-                <span class="skill-pct">90</span>
-              </div>
-              <div class="skill-row">
-                <span class="skill-name">ZBrush</span>
-                <div class="skill-track"><div class="skill-fill" style="--pct:85%"></div></div>
-                <span class="skill-pct">85</span>
-              </div>
-              <div class="skill-row">
-                <span class="skill-name">Substance Painter</span>
-                <div class="skill-track"><div class="skill-fill" style="--pct:88%"></div></div>
-                <span class="skill-pct">88</span>
-              </div>
-              <div class="skill-row">
-                <span class="skill-name">Unreal Engine 5</span>
-                <div class="skill-track"><div class="skill-fill" style="--pct:82%"></div></div>
-                <span class="skill-pct">82</span>
-              </div>
-              <div class="skill-row">
-                <span class="skill-name">Cinema 4D</span>
-                <div class="skill-track"><div class="skill-fill" style="--pct:78%"></div></div>
-                <span class="skill-pct">78</span>
-              </div>
-              <div class="skill-row">
-                <span class="skill-name">C++ / Blueprints</span>
-                <div class="skill-track"><div class="skill-fill" style="--pct:72%"></div></div>
-                <span class="skill-pct">72</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── WORK ─── -->
-  <section id="work">
-    <div class="container work-header">
-      <p class="section-label" data-i18n="work.label">Proyectos seleccionados</p>
-      <h2 class="section-title" id="workTitle" data-i18n="work.title">Proyectos</h2>
-    </div>
-
-    <div id="projectsPin">
-      <div class="projects-track" id="projectsTrack">
-
-        <!-- 01 · Ecos de Xàtiva -->
-        <article class="project-card project-card--featured" data-color="35">
-          <div class="card-glow"></div>
-          <div class="card-body">
-            <header class="card-header">
-              <span class="card-num">01</span>
-              <div class="card-tags">
-                <span class="tag">VR Experience</span>
-                <span class="tag">Unreal Engine 5</span>
-                <span class="tag">TFG 2026</span>
-              </div>
-            </header>
-            <h3 class="card-title">Ecos de<br>Xàtiva</h3>
-            <p class="card-desc" data-i18n="projects.ecos.desc">
-              Experiencia VR para Meta Quest 3 ambientada en el Castell de Xàtiva. Un sandbox histórico donde puedes blandir armas medievales, disparar cañones y explorar el patrimonio ibérico de los siglos XV–XVI.
-            </p>
-            <p class="card-role" data-i18n="projects.ecos.role">Lead Programmer · UE5 · C++ · Blueprints · Android</p>
-            <a href="https://hugoucv.github.io/ecos-de-xativa/index.html" target="_blank" rel="noopener" class="card-link magnetic">
-              <span data-i18n="projects.cta">Ver proyecto</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-          </div>
-          <div class="card-visual">
-            <img
-              src="https://hugoucv.github.io/ecos-de-xativa/Imagenes/CampoEntrenamiento1.png"
-              alt="Ecos de Xàtiva — Campo de entrenamiento VR"
-              loading="lazy"
-            >
-            <div class="card-img-overlay"></div>
-          </div>
-        </article>
-
-        <!-- 02 · Mexican Town -->
-        <article class="project-card" data-color="25">
-          <div class="card-glow"></div>
-          <div class="card-body">
-            <header class="card-header">
-              <span class="card-num">02</span>
-              <div class="card-tags">
-                <span class="tag">3D Environment</span>
-                <span class="tag">Lighting</span>
-              </div>
-            </header>
-            <h3 class="card-title">Mexican<br>Town</h3>
-            <p class="card-desc" data-i18n="projects.mexican.desc">
-              Entorno de una plaza mexicana tradicional creado durante un intercambio en México. Kiosco central, puestos de comida callejera y mototaxis — modelado e iluminado desde referencia cultural directa.
-            </p>
-            <p class="card-role">Maya · Arnold · Substance Painter</p>
-            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link magnetic">
-              <span data-i18n="projects.cta">Ver proyecto</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-          </div>
-          <div class="card-visual card-visual--placeholder">
-            <div class="card-placeholder-inner">
-              <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-                <rect x="10" y="10" width="60" height="60" stroke="rgba(232,184,109,0.2)" stroke-width="1"/>
-                <rect x="20" y="20" width="40" height="40" stroke="rgba(232,184,109,0.12)" stroke-width="1"/>
-                <line x1="10" y1="10" x2="70" y2="70" stroke="rgba(232,184,109,0.08)" stroke-width="1"/>
-                <line x1="70" y1="10" x2="10" y2="70" stroke="rgba(232,184,109,0.08)" stroke-width="1"/>
-                <circle cx="40" cy="40" r="6" stroke="rgba(232,184,109,0.3)" stroke-width="1" fill="none"/>
-              </svg>
-              <span>Mexican Town</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- 03 · Shan Yun -->
-        <article class="project-card" data-color="210">
-          <div class="card-glow"></div>
-          <div class="card-body">
-            <header class="card-header">
-              <span class="card-num">03</span>
-              <div class="card-tags">
-                <span class="tag">Character Art</span>
-                <span class="tag">Sculpting</span>
-              </div>
-            </header>
-            <h3 class="card-title">Shan Yun<br>Character</h3>
-            <p class="card-desc" data-i18n="projects.shanYun.desc">
-              Character study de alta definición explorando anatomía, expresión facial y textura superficial. Esculpido en ZBrush, retopología en Maya, texturizado con Substance Painter.
-            </p>
-            <p class="card-role">ZBrush · Maya · Substance Painter</p>
-            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link magnetic">
-              <span data-i18n="projects.cta">Ver proyecto</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-          </div>
-          <div class="card-visual card-visual--placeholder">
-            <div class="card-placeholder-inner">
-              <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-                <circle cx="40" cy="32" r="18" stroke="rgba(100,160,232,0.2)" stroke-width="1"/>
-                <ellipse cx="40" cy="56" rx="22" ry="10" stroke="rgba(100,160,232,0.12)" stroke-width="1"/>
-                <line x1="22" y1="32" x2="58" y2="32" stroke="rgba(100,160,232,0.08)" stroke-width="1"/>
-                <line x1="40" y1="14" x2="40" y2="66" stroke="rgba(100,160,232,0.08)" stroke-width="1"/>
-                <circle cx="40" cy="32" r="4" fill="rgba(100,160,232,0.2)"/>
-              </svg>
-              <span>Shan Yun</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- 04 · Porsche -->
-        <article class="project-card" data-color="0">
-          <div class="card-glow"></div>
-          <div class="card-body">
-            <header class="card-header">
-              <span class="card-num">04</span>
-              <div class="card-tags">
-                <span class="tag">3D Animation</span>
-                <span class="tag">Automotive</span>
-              </div>
-            </header>
-            <h3 class="card-title">PORSCHE<br>Cinematography</h3>
-            <p class="card-desc" data-i18n="projects.porsche.desc">
-              Pieza cinematográfica 3D que combina diseño automovilístico y storytelling. Composición de cámara, mood de iluminación y timing del movimiento a nivel comercial.
-            </p>
-            <p class="card-role">Cinema 4D · Redshift · After Effects</p>
-            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link magnetic">
-              <span data-i18n="projects.cta">Ver proyecto</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-          </div>
-          <div class="card-visual card-visual--placeholder">
-            <div class="card-placeholder-inner">
-              <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-                <ellipse cx="40" cy="48" rx="30" ry="10" stroke="rgba(232,80,80,0.2)" stroke-width="1"/>
-                <path d="M14 48 Q20 28 40 26 Q60 28 66 48" stroke="rgba(232,80,80,0.15)" stroke-width="1" fill="none"/>
-                <path d="M22 44 L24 34 L38 30 L52 34 L54 44" stroke="rgba(232,80,80,0.1)" stroke-width="1" fill="none"/>
-                <circle cx="26" cy="50" r="6" stroke="rgba(232,80,80,0.2)" stroke-width="1" fill="none"/>
-                <circle cx="54" cy="50" r="6" stroke="rgba(232,80,80,0.2)" stroke-width="1" fill="none"/>
-                <circle cx="40" cy="36" r="2" fill="rgba(232,80,80,0.3)"/>
-              </svg>
-              <span>PORSCHE</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- 05 · Cinema 4D -->
-        <article class="project-card" data-color="270">
-          <div class="card-glow"></div>
-          <div class="card-body">
-            <header class="card-header">
-              <span class="card-num">05</span>
-              <div class="card-tags">
-                <span class="tag">Props Design</span>
-                <span class="tag">Cinema 4D</span>
-              </div>
-            </header>
-            <h3 class="card-title">Cinema 4D<br>Showcase</h3>
-            <p class="card-desc" data-i18n="projects.c4d.desc">
-              Showcase técnico y creativo de modelado hard-surface en Cinema 4D. Modelado procedimental, sistemas MoGraph y renderizado físico.
-            </p>
-            <p class="card-role">Cinema 4D · MoGraph · Redshift</p>
-            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link magnetic">
-              <span data-i18n="projects.cta">Ver proyecto</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-          </div>
-          <div class="card-visual card-visual--placeholder">
-            <div class="card-placeholder-inner">
-              <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-                <rect x="20" y="20" width="40" height="40" stroke="rgba(160,100,232,0.2)" stroke-width="1" transform="rotate(15 40 40)"/>
-                <rect x="25" y="25" width="30" height="30" stroke="rgba(160,100,232,0.15)" stroke-width="1" transform="rotate(30 40 40)"/>
-                <rect x="30" y="30" width="20" height="20" stroke="rgba(160,100,232,0.1)" stroke-width="1" transform="rotate(45 40 40)"/>
-                <circle cx="40" cy="40" r="3" fill="rgba(160,100,232,0.4)"/>
-              </svg>
-              <span>C4D Showcase</span>
-            </div>
-          </div>
-        </article>
-
-        <!-- 06 · Pencil Tank -->
-        <article class="project-card" data-color="130">
-          <div class="card-glow"></div>
-          <div class="card-body">
-            <header class="card-header">
-              <span class="card-num">06</span>
-              <div class="card-tags">
-                <span class="tag">Stylized Art</span>
-                <span class="tag">Hard Surface</span>
-              </div>
-            </header>
-            <h3 class="card-title">Creative<br>Artillery</h3>
-            <p class="card-desc" data-i18n="projects.tank.desc">
-              Tanque de lápiz estilizado que combina sensibilidad ilustrativa con craft 3D. Exploración del lenguaje de diseño no-fotorrealista aplicado a hard-surface.
-            </p>
-            <p class="card-role">Maya · Substance Painter · Marmoset</p>
-            <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="card-link magnetic">
-              <span data-i18n="projects.cta">Ver proyecto</span>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-            </a>
-          </div>
-          <div class="card-visual card-visual--placeholder">
-            <div class="card-placeholder-inner">
-              <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-                <rect x="12" y="40" width="56" height="22" rx="4" stroke="rgba(80,200,120,0.2)" stroke-width="1"/>
-                <rect x="18" y="30" width="36" height="14" rx="2" stroke="rgba(80,200,120,0.15)" stroke-width="1"/>
-                <line x1="54" y1="37" x2="68" y2="37" stroke="rgba(80,200,120,0.2)" stroke-width="2"/>
-                <circle cx="24" cy="62" r="7" stroke="rgba(80,200,120,0.2)" stroke-width="1" fill="none"/>
-                <circle cx="56" cy="62" r="7" stroke="rgba(80,200,120,0.2)" stroke-width="1" fill="none"/>
-                <circle cx="40" cy="37" r="2" fill="rgba(80,200,120,0.4)"/>
-              </svg>
-              <span>Creative Artillery</span>
-            </div>
-          </div>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── CONTACT ─── -->
-  <section id="contact">
-    <!-- SVG decorative lines -->
-    <svg class="contact-deco" viewBox="0 0 400 400" fill="none" aria-hidden="true">
-      <line x1="0"   y1="400" x2="400" y2="0"   stroke="rgba(232,184,109,0.06)" stroke-width="1"/>
-      <line x1="0"   y1="300" x2="300" y2="0"   stroke="rgba(232,184,109,0.04)" stroke-width="1"/>
-      <line x1="100" y1="400" x2="400" y2="100" stroke="rgba(232,184,109,0.04)" stroke-width="1"/>
-      <circle cx="0"   cy="400" r="3" fill="rgba(232,184,109,0.3)"/>
-      <circle cx="400" cy="0"   r="2" fill="rgba(232,184,109,0.2)"/>
-    </svg>
-
-    <div class="container">
-      <p class="section-label" data-i18n="contact.label">Hablemos</p>
-      <h2 class="contact-big" id="contactTitle" data-i18n="contact.title">
-        Creemos algo<br>juntos
-      </h2>
-      <a href="mailto:zizekrp02@gmail.com" class="contact-email magnetic">
-        zizekrp02@gmail.com
-      </a>
-      <div class="contact-links">
-        <a href="https://hugoferrerplaza.myportfolio.com" target="_blank" rel="noopener" class="ext-link">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-            <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13z"/><path d="M5.5 8h5M8 5.5l2.5 2.5L8 10.5"/>
-          </svg>
-          <span>Behance Portfolio</span>
-        </a>
-        <a href="https://hugoucv.github.io/ecos-de-xativa/index.html" target="_blank" rel="noopener" class="ext-link">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-            <path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13z"/><path d="M5.5 8h5M8 5.5l2.5 2.5L8 10.5"/>
-          </svg>
-          <span>Ecos de Xàtiva</span>
-        </a>
-        <a href="https://github.com/hugoUCV" target="_blank" rel="noopener" class="ext-link">
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
-            <path d="M8 1a7 7 0 00-2.213 13.641c.35.064.479-.152.479-.337v-1.18C4.03 13.52 3.63 12.1 3.63 12.1c-.32-.81-.78-1.026-.78-1.026-.636-.434.048-.426.048-.426.703.05 1.073.722 1.073.722.625 1.07 1.638.762 2.038.582.063-.452.244-.762.445-.937-1.555-.177-3.19-.777-3.19-3.458 0-.764.273-1.388.72-1.878-.072-.178-.312-.888.069-1.852 0 0 .587-.188 1.923.716A6.694 6.694 0 018 4.77a6.7 6.7 0 011.752.236c1.335-.904 1.921-.716 1.921-.716.382.964.142 1.674.07 1.852.448.49.72 1.114.72 1.878 0 2.688-1.638 3.28-3.198 3.452.252.216.476.644.476 1.298v1.924c0 .187.127.405.483.336A7.002 7.002 0 008 1z"/>
-          </svg>
-          <span>GitHub</span>
-        </a>
-      </div>
-    </div>
-
-    <footer class="site-footer">
-      <p>© 2026 Hugo Ferrer Plaza</p>
-      <p data-i18n="footer.made">Construido con ♥ y demasiados polígonos</p>
-    </footer>
-  </section>
-
+  <!-- App -->
   <script src="assets/js/i18n.js"></script>
-  <script src="assets/js/three-bg.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
