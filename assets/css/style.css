@@ -395,8 +395,9 @@ section { padding: clamp(5rem, 11vw, 10rem) var(--pad-x); }
 .proj-grid {
   max-width: var(--maxw); margin: clamp(2.5rem,5vw,4rem) auto 0;
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+  perspective: 1600px;
 }
-.proj-card { position: relative; will-change: transform; }
+.proj-card { position: relative; transform-style: preserve-3d; }
 .proj-card-wide { grid-column: span 2; }
 .proj-link {
   display: block; background: var(--void-card); border: 1px solid var(--line-dark);
@@ -407,12 +408,29 @@ section { padding: clamp(5rem, 11vw, 10rem) var(--pad-x); }
 .proj-media { position: relative; aspect-ratio: 16/10; overflow: hidden; background: var(--void-2); }
 .proj-card-wide .proj-media { aspect-ratio: 21/8; }
 .proj-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease-out); }
-.proj-media-contain img { object-fit: contain; padding: 1.5rem; }
 .proj-link:hover .proj-media img { transform: scale(1.06); }
+
+/* vertical renders sit on a tonal gradient (JS sets --tone from the image) so
+   they read as a landscape frame in harmony with the rest of the grid */
+.proj-media-contain {
+  background:
+    radial-gradient(ellipse 90% 75% at 50% 34%, var(--tone, #20222b), transparent 70%),
+    linear-gradient(160deg, color-mix(in srgb, var(--tone, #1a1c24) 55%, #0b0b10), #0b0b10 85%);
+}
+.proj-media-contain img {
+  position: relative; z-index: 1; object-fit: contain; padding: 1.6rem;
+  filter: drop-shadow(0 18px 36px rgba(0,0,0,0.5));
+}
+.proj-media-contain::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 40%, transparent 50%, rgba(0,0,0,0.3) 100%);
+}
 
 .proj-media-video {
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, #1a1a20, #0d0d12);
+  background:
+    radial-gradient(circle at 30% 25%, var(--accent-soft), transparent 55%),
+    linear-gradient(135deg, #15161d, #0b0b10);
 }
 .video-badge { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; color: var(--paper-soft); }
 .play-tri { width: 0; height: 0; border-left: 12px solid var(--accent); border-top: 8px solid transparent; border-bottom: 8px solid transparent; }
@@ -467,8 +485,11 @@ section { padding: clamp(5rem, 11vw, 10rem) var(--pad-x); }
 ═══════════════════════════════════════════════════ */
 .reveal-img img { clip-path: inset(0 0 100% 0); transition: clip-path 1s var(--ease-expo); }
 .reveal-img.in img { clip-path: inset(0 0 0% 0); }
-.cap-card, .timeline-item, .proj-card, .about-bio, .about-stats { opacity: 0; transform: translateY(28px); }
-.cap-card.in, .timeline-item.in, .proj-card.in, .about-bio.in, .about-stats.in { opacity: 1; transform: none; transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+.cap-card, .timeline-item, .about-bio, .about-stats { opacity: 0; transform: translateY(28px); }
+.cap-card.in, .timeline-item.in, .about-bio.in, .about-stats.in { opacity: 1; transform: none; transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+/* project cards: initial state for scrubbed convergence (JS-driven) */
+.proj-card { opacity: 0; }
+.proj-card.in { opacity: 1; }
 
 /* ═══════════════════════════════════════════════════
    RESPONSIVE

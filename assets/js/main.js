@@ -136,7 +136,6 @@
     });
     batchReveal('.cap-card');
     batchReveal('.timeline-item');
-    batchReveal('.proj-card');
     batchReveal('.about-bio');
     batchReveal('.about-stats');
     ScrollTrigger.batch('.reveal-img', {
@@ -145,6 +144,53 @@
     });
   } else {
     document.querySelectorAll('.cap-card,.timeline-item,.proj-card,.about-bio,.about-stats,.reveal-img').forEach(el => el.classList.add('in'));
+  }
+
+  /* ─── TONAL BACKDROP — derive a colour from each contained render ─── */
+  /* makes vertical/portrait renders fill a landscape frame in harmony */
+  function applyTone(img) {
+    const media = img.closest('.proj-media-contain');
+    if (!media) return;
+    try {
+      const cv = document.createElement('canvas');
+      const w = cv.width = 24, h = cv.height = 24;
+      const ctx = cv.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0, w, h);
+      const d = ctx.getImageData(0, 0, w, h).data;
+      let r = 0, g = 0, b = 0, n = 0;
+      for (let i = 0; i < d.length; i += 4) {
+        const a = d[i + 3]; if (a < 200) continue;
+        r += d[i]; g += d[i + 1]; b += d[i + 2]; n++;
+      }
+      if (!n) return;
+      r = Math.round(r / n); g = Math.round(g / n); b = Math.round(b / n);
+      // pull toward a deep, slightly-saturated tone so it stays in the dark palette
+      const mix = (c) => Math.round(c * 0.5 + 14);
+      media.style.setProperty('--tone', `rgb(${mix(r)}, ${mix(g)}, ${mix(b)})`);
+    } catch (_) { /* canvas may taint on some hosts — gradient fallback stays */ }
+  }
+  document.querySelectorAll('.proj-media-contain img').forEach(img => {
+    if (img.complete && img.naturalWidth) applyTone(img);
+    else img.addEventListener('load', () => applyTone(img), { once: true });
+  });
+
+  /* ─── PROJECT CARDS — scroll-linked convergence (ref-style) ─── */
+  /* cards start offset/scaled/tilted to the sides and settle into the grid as you scroll */
+  if (!reduced) {
+    const grid = document.querySelector('.proj-grid');
+    if (grid) {
+      const mid = () => grid.getBoundingClientRect().width / 2;
+      gsap.utils.toArray('.proj-card').forEach(card => {
+        const c = card.offsetLeft + card.offsetWidth / 2;
+        const m = mid();
+        const dir = c < m - 30 ? -1 : c > m + 30 ? 1 : 0; // left / right / center column
+        gsap.fromTo(card,
+          { opacity: 0, scale: 0.78, y: 110, xPercent: dir * 14, rotateY: dir * -10, rotateX: 6 },
+          { opacity: 1, scale: 1, y: 0, xPercent: 0, rotateY: 0, rotateX: 0, ease: 'none',
+            scrollTrigger: { trigger: card, start: 'top 96%', end: 'top 52%', scrub: 0.9 } }
+        );
+      });
+    }
   }
 
   /* ─── FEATURED HERO PARALLAX ─── */
