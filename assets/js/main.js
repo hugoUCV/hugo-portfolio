@@ -92,17 +92,58 @@
   if (menuToggle) menuToggle.addEventListener('click', () => menuOpen ? closeMobileMenu() : openMobileMenu());
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
 
-  /* ─── HERO ENTRANCE ─── */
-  if (!reduced) {
-    gsap.timeline({ delay: 0.2 })
+  /* ─── HERO ENTRANCE (called after the intro) ─── */
+  function playHero() {
+    if (reduced) {
+      gsap.set('.hero-title .word', { y: '0%' });
+      document.querySelectorAll('.hero-eyebrow,.hero-cycle,.hero-sub,.hero-cta-row').forEach(el => el.style.opacity = 1);
+      return;
+    }
+    gsap.timeline()
       .to('.hero-eyebrow', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
       .to('.hero-title .word', { y: '0%', duration: 1.05, stagger: 0.08, ease: 'power4.out' }, '-=0.4')
       .to('.hero-cycle', { opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
       .to('.hero-sub', { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.35')
       .to('.hero-cta-row', { opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.4');
+  }
+
+  /* ─── INTRO / OPENING — logo draws in, then lifts to reveal the site ─── */
+  const intro = document.getElementById('intro');
+  let introSeen = false;
+  try { introSeen = sessionStorage.getItem('hfp-intro') === '1'; } catch (_) {}
+
+  let introDone = false;
+  function finishIntro() {
+    if (introDone) return;
+    introDone = true;
+    if (intro) {
+      intro.classList.add('done');
+      setTimeout(() => intro.classList.add('intro-hidden'), 1000);
+    }
+    lenis.start();
+    playHero();
+  }
+
+  if (reduced || introSeen || !intro) {
+    if (intro) intro.classList.add('intro-hidden');
+    playHero();
   } else {
-    gsap.set('.hero-title .word', { y: '0%' });
-    document.querySelectorAll('.hero-eyebrow,.hero-cycle,.hero-sub,.hero-cta-row').forEach(el => el.style.opacity = 1);
+    try { sessionStorage.setItem('hfp-intro', '1'); } catch (_) {}
+    lenis.stop();
+    window.scrollTo(0, 0);
+    const hex = intro.querySelector('.im-hex');
+    const cross = intro.querySelector('.im-cross');
+    const dot = intro.querySelector('.im-dot');
+    const word = intro.querySelector('.intro-word');
+    [hex, cross].forEach(p => { const L = p.getTotalLength(); gsap.set(p, { strokeDasharray: L, strokeDashoffset: L }); });
+    gsap.timeline({ onComplete: finishIntro })
+      .to(hex, { strokeDashoffset: 0, duration: 0.75, ease: 'power2.inOut' }, 0.15)
+      .to(cross, { strokeDashoffset: 0, duration: 0.5, ease: 'power2.out' }, '-=0.32')
+      .to(dot, { scale: 1, duration: 0.4, ease: 'back.out(2.2)' }, '-=0.18')
+      .to(word, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.22')
+      .to({}, { duration: 0.45 });
+    // safety: never let a stalled ticker keep the site hidden behind the intro
+    setTimeout(finishIntro, 3800);
   }
 
   /* ─── WORD CYCLE (reads i18n, updates on lang change) ─── */
@@ -174,23 +215,33 @@
     else img.addEventListener('load', () => applyTone(img), { once: true });
   });
 
-  /* ─── PROJECT CARDS — scroll-linked convergence (ref-style) ─── */
-  /* cards start offset/scaled/tilted to the sides and settle into the grid as you scroll */
-  if (!reduced) {
-    const grid = document.querySelector('.proj-grid');
-    if (grid) {
-      const mid = () => grid.getBoundingClientRect().width / 2;
-      gsap.utils.toArray('.proj-card').forEach(card => {
-        const c = card.offsetLeft + card.offsetWidth / 2;
-        const m = mid();
-        const dir = c < m - 30 ? -1 : c > m + 30 ? 1 : 0; // left / right / center column
-        gsap.fromTo(card,
-          { opacity: 0, scale: 0.78, y: 110, xPercent: dir * 14, rotateY: dir * -10, rotateX: 6 },
-          { opacity: 1, scale: 1, y: 0, xPercent: 0, rotateY: 0, rotateX: 0, ease: 'none',
-            scrollTrigger: { trigger: card, start: 'top 96%', end: 'top 52%', scrub: 0.9 } }
-        );
-      });
-    }
+  /* ─── PROJECT CARDS — STACK → GRID on scroll ─── */
+  /* the cards start piled as a fanned deck near the top of the section and
+     spread out into their grid slots as you scroll through it. */
+  const grid = document.querySelector('.proj-grid');
+  const projCards = grid ? gsap.utils.toArray('.proj-card') : [];
+  if (!reduced && !isMobile() && grid && projCards.length) {
+    const n = projCards.length;
+    const stackX = () => grid.offsetWidth / 2;
+    const stackY = () => grid.offsetHeight * 0.13;
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: grid, start: 'top 80%', end: 'top 18%', scrub: 0.85, invalidateOnRefresh: true },
+    });
+    projCards.forEach((card, i) => {
+      gsap.set(card, { zIndex: n - i, transformOrigin: '50% 50%', opacity: 1 });
+      const fan = i - (n - 1) / 2;
+      tl.fromTo(card, {
+        x: () => stackX() - (card.offsetLeft + card.offsetWidth / 2),
+        y: () => stackY() - (card.offsetTop + card.offsetHeight / 2),
+        rotation: fan * 4, scale: 0.7,
+      }, { x: 0, y: 0, rotation: 0, scale: 1, ease: 'power2.out', duration: 1 }, i * 0.07);
+    });
+  } else if (!reduced && grid) {
+    // mobile: lighter staggered reveal
+    ScrollTrigger.batch('.proj-card', { start: 'top 88%',
+      onEnter: els => els.forEach((el, i) => setTimeout(() => el.classList.add('in'), i * 90)) });
+  } else {
+    projCards.forEach(el => el.classList.add('in'));
   }
 
   /* ─── FEATURED HERO PARALLAX ─── */

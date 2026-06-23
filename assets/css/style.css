@@ -66,6 +66,22 @@ button { font-family: inherit; cursor: none; background: none; border: none; col
 ::selection { background: var(--accent); color: #fff; }
 ::-webkit-scrollbar { width: 0; }
 
+/* ─── intro / opening ─── */
+.intro {
+  position: fixed; inset: 0; z-index: 10000; background: var(--bone); color: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  will-change: transform;
+}
+.intro.done { transform: translateY(-101%); transition: transform 0.95s var(--ease-expo); }
+.intro-inner { display: flex; flex-direction: column; align-items: center; gap: 1.4rem; }
+.intro-mark { color: var(--ink); }
+.intro-mark .im-dot { transform-box: fill-box; transform-origin: center; transform: scale(0); }
+.intro-word {
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.42em;
+  padding-left: 0.42em; color: var(--ink-soft); opacity: 0; transform: translateY(8px);
+}
+.intro-hidden { display: none; }
+
 /* ─── grain + progress + cursor ─── */
 .grain {
   position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: 0.04;
@@ -393,6 +409,7 @@ section { padding: clamp(5rem, 11vw, 10rem) var(--pad-x); }
    PROJECTS GRID (dark)
 ═══════════════════════════════════════════════════ */
 .proj-grid {
+  position: relative; /* stack→grid math measures card offsets against this */
   max-width: var(--maxw); margin: clamp(2.5rem,5vw,4rem) auto 0;
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
   perspective: 1600px;
