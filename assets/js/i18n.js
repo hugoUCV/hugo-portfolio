@@ -75,6 +75,29 @@
         c4d: { t: 'Cinema 4D Showcase', tag: 'Hard-surface · MoGraph', d: 'Showcase técnico y creativo de modelado hard-surface en Cinema 4D: modelado procedimental, sistemas MoGraph y render físico.' },
         tank: { t: 'Creative Artillery', tag: 'Estilizado · Ilustración', d: 'Tanque de lápiz estilizado que combina sensibilidad ilustrativa con craft 3D. Una exploración del lenguaje no-fotorrealista aplicado a hard-surface.' },
       },
+      quote: { text: 'Cada asset que construyo tiene que aguantar un primer plano y correr a noventa fps. Belleza y rendimiento no se negocian: se diseñan juntos.' },
+      process: {
+        label: '( Cómo trabajo )',
+        title: 'Proceso',
+        intro: 'Un flujo claro del brief al asset final en motor.',
+        steps: [
+          { t: 'Referencia & blockout', d: 'Reúno referencia, defino escala y proporciones con un blockout rápido antes de modelar nada.' },
+          { t: 'Modelado & escultura', d: 'Hard-surface limpio o escultura en ZBrush según el asset, con topología pensada para producción.' },
+          { t: 'Texturizado & lookdev', d: 'PBR en Substance, materiales y baking; iluminación y composición de cámara hasta el render final.' },
+          { t: 'Optimización & entrega', d: 'Retopología, LODs y optimización para tiempo real / VR, entrega lista para motor.' },
+        ],
+      },
+      faq: {
+        label: '( Preguntas frecuentes )',
+        title: 'FAQ',
+        items: [
+          { q: '¿Qué tipo de proyectos haces?', a: 'Entornos, props, hard-surface, personajes y experiencias VR. Como generalista cubro todo el pipeline, del concepto al asset final en motor.' },
+          { q: '¿Con qué software trabajas?', a: 'Maya, ZBrush, Substance Painter, Blender, Cinema 4D, Marmoset y Unreal Engine 5. Programo en C++ y Blueprints para VR.' },
+          { q: '¿Estás disponible para prácticas?', a: 'Sí. Acabo de graduarme en DNAV (UCV) y busco prácticas o proyectos donde seguir creciendo como 3D Generalist.' },
+          { q: '¿Trabajas en remoto?', a: 'Sí, trabajo en remoto sin problema, y presencialmente en la zona de Valencia.' },
+          { q: '¿Cómo empezamos?', a: 'Escríbeme a zizekrp02@gmail.com con tu idea o necesidad y te respondo con un enfoque y unos tiempos.' },
+        ],
+      },
       contact: {
         label: '( Hablemos )',
         title: 'Creemos algo juntos',
@@ -153,6 +176,29 @@
         c4d: { t: 'Cinema 4D Showcase', tag: 'Hard-surface · MoGraph', d: 'Technical and creative showcase of hard-surface modeling in Cinema 4D: procedural modeling, MoGraph systems and physical rendering.' },
         tank: { t: 'Creative Artillery', tag: 'Stylized · Illustration', d: 'Stylized pencil tank combining illustration sensibility with 3D craft. An exploration of non-photorealistic language applied to hard-surface.' },
       },
+      quote: { text: "Every asset I build has to hold up in a close-up and run at ninety fps. Beauty and performance aren't a trade-off — they're designed together." },
+      process: {
+        label: '( How I work )',
+        title: 'Process',
+        intro: 'A clear flow from brief to final in-engine asset.',
+        steps: [
+          { t: 'Reference & blockout', d: 'I gather reference and define scale and proportions with a quick blockout before modeling anything.' },
+          { t: 'Modeling & sculpting', d: 'Clean hard-surface or ZBrush sculpting depending on the asset, with production-ready topology.' },
+          { t: 'Texturing & lookdev', d: 'PBR in Substance, materials and baking; lighting and camera composition through to final render.' },
+          { t: 'Optimization & delivery', d: 'Retopology, LODs and real-time / VR optimization, delivered engine-ready.' },
+        ],
+      },
+      faq: {
+        label: '( Frequently asked )',
+        title: 'FAQ',
+        items: [
+          { q: 'What kind of projects do you do?', a: 'Environments, props, hard-surface, characters and VR experiences. As a generalist I cover the full pipeline, from concept to final in-engine asset.' },
+          { q: 'What software do you use?', a: 'Maya, ZBrush, Substance Painter, Blender, Cinema 4D, Marmoset and Unreal Engine 5. I code in C++ and Blueprints for VR.' },
+          { q: 'Are you available for internships?', a: "Yes. I just graduated in DNAV (UCV) and I'm looking for internships or projects to keep growing as a 3D Generalist." },
+          { q: 'Do you work remotely?', a: 'Yes, I work remotely with no problem, and on-site around Valencia.' },
+          { q: 'How do we start?', a: 'Email me at zizekrp02@gmail.com with your idea or need and I will reply with an approach and a timeline.' },
+        ],
+      },
       contact: {
         label: '( Get in touch )',
         title: "Let's create something together",
@@ -230,6 +276,29 @@
         porsche: { t: 'PORSCHE', tag: 'Cinematografia · Animació', d: 'Peça cinematogràfica 3D que combina disseny automobilístic i storytelling. Composició de càmera, mood d\'il·luminació i timing de nivell comercial.' },
         c4d: { t: 'Cinema 4D Showcase', tag: 'Hard-surface · MoGraph', d: 'Showcase tècnic i creatiu de modelat hard-surface en Cinema 4D: modelat procedimental, sistemes MoGraph i render físic.' },
         tank: { t: 'Creative Artillery', tag: 'Estilitzat · Il·lustració', d: 'Tanc de llapis estilitzat que combina sensibilitat il·lustrativa amb craft 3D. Una exploració del llenguatge no-fotorealista aplicat a hard-surface.' },
+      },
+      quote: { text: 'Cada asset que construïsc ha d\'aguantar un primer pla i córrer a noranta fps. Bellesa i rendiment no es negocien: es dissenyen junts.' },
+      process: {
+        label: '( Com treballe )',
+        title: 'Procés',
+        intro: 'Un flux clar del brief a l\'asset final en motor.',
+        steps: [
+          { t: 'Referència & blockout', d: 'Reunisc referència, definisc escala i proporcions amb un blockout ràpid abans de modelar res.' },
+          { t: 'Modelat & escultura', d: 'Hard-surface net o escultura en ZBrush segons l\'asset, amb topologia pensada per a producció.' },
+          { t: 'Texturitzat & lookdev', d: 'PBR en Substance, materials i baking; il·luminació i composició de càmera fins al render final.' },
+          { t: 'Optimització & entrega', d: 'Retopologia, LODs i optimització per a temps real / VR, entrega llesta per a motor.' },
+        ],
+      },
+      faq: {
+        label: '( Preguntes freqüents )',
+        title: 'FAQ',
+        items: [
+          { q: 'Quin tipus de projectes fas?', a: 'Entorns, props, hard-surface, personatges i experiències VR. Com a generalista cobrisc tot el pipeline, del concepte a l\'asset final en motor.' },
+          { q: 'Amb quin programari treballes?', a: 'Maya, ZBrush, Substance Painter, Blender, Cinema 4D, Marmoset i Unreal Engine 5. Programe en C++ i Blueprints per a VR.' },
+          { q: 'Estàs disponible per a pràctiques?', a: 'Sí. Acabe de graduar-me en DNAV (UCV) i busque pràctiques o projectes on seguir creixent com a 3D Generalist.' },
+          { q: 'Treballes en remot?', a: 'Sí, treballe en remot sense problema, i presencialment a la zona de València.' },
+          { q: 'Com comencem?', a: 'Escriu-me a zizekrp02@gmail.com amb la teua idea o necessitat i et responc amb un enfocament i uns temps.' },
+        ],
       },
       contact: {
         label: '( Parlem )',

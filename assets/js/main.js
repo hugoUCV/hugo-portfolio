@@ -200,6 +200,58 @@
       scrollTrigger: { trigger: '.featured-hero', start: 'top bottom', end: 'bottom top', scrub: true } });
   }
 
+  /* ─── QUOTE — words light up on scroll ─── */
+  const quoteEl = document.getElementById('quoteText');
+  let quoteST = null;
+  function buildQuote() {
+    if (!quoteEl) return;
+    if (quoteST) { quoteST.kill(); quoteST = null; }
+    const text = quoteEl.textContent.trim();
+    quoteEl.innerHTML = text.split(/(\s+)/).map(tok =>
+      /\s+/.test(tok) ? tok : `<span class="qw">${tok}</span>`
+    ).join('');
+    if (reduced) { quoteEl.querySelectorAll('.qw').forEach(w => w.classList.add('lit')); return; }
+    const words = quoteEl.querySelectorAll('.qw');
+    quoteST = ScrollTrigger.create({
+      trigger: quoteEl, start: 'top 78%', end: 'bottom 58%', scrub: 0.5,
+      onUpdate(self) {
+        const lit = self.progress * words.length;
+        words.forEach((w, i) => w.classList.toggle('lit', i < lit));
+      },
+    });
+  }
+  buildQuote();
+  // i18n sets the text before dispatching, so rebuild synchronously (rAF can be throttled)
+  window.addEventListener('hfp:lang', () => { if (quoteEl) buildQuote(); });
+
+  /* ─── PROCESS STEPS — staggered reveal + connecting line fills ─── */
+  if (!reduced) {
+    ScrollTrigger.batch('.step', {
+      start: 'top 88%',
+      onEnter: els => els.forEach((el, i) => setTimeout(() => el.classList.add('in'), i * 130)),
+    });
+    const fill = document.getElementById('stepLineFill');
+    if (fill) gsap.fromTo(fill, { width: '0%' }, { width: '100%', ease: 'none',
+      scrollTrigger: { trigger: '.steps', start: 'top 75%', end: 'bottom 70%', scrub: 0.8 } });
+  } else {
+    document.querySelectorAll('.step').forEach(el => el.classList.add('in'));
+  }
+
+  /* ─── FAQ ACCORDION ─── */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const btn = item.querySelector('.faq-q');
+    btn.addEventListener('click', () => {
+      const open = item.classList.contains('open');
+      // close siblings for a clean single-open accordion
+      document.querySelectorAll('.faq-item.open').forEach(other => {
+        if (other !== item) { other.classList.remove('open'); other.querySelector('.faq-q').setAttribute('aria-expanded', 'false'); }
+      });
+      item.classList.toggle('open', !open);
+      btn.setAttribute('aria-expanded', String(!open));
+      ScrollTrigger.refresh();
+    });
+  });
+
   /* ─── MAGNETIC ─── */
   if (!reduced && !isMobile()) {
     document.querySelectorAll('.magnetic').forEach(el => {
