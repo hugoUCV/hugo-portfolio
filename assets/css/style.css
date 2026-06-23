@@ -309,6 +309,12 @@ body.dark .btn-ghost { border-color: var(--line-dark); color: var(--paper); }
 /* ═══════════════════════════════════════════════════
    SECTION SHELLS
 ═══════════════════════════════════════════════════ */
+/* main is a flex column so we can reorder sections without moving markup:
+   projects render right after the hero (the stack→grid is the first thing) */
+main { display: flex; flex-direction: column; }
+.hero { order: -2; }
+.projects { order: -1; }
+
 .section-light { background: var(--bone); color: var(--ink); }
 .section-dark  { background: var(--void); color: var(--paper); }
 section { padding: clamp(5rem, 11vw, 10rem) var(--pad-x); }

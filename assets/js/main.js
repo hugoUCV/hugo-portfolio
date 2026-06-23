@@ -51,16 +51,18 @@
     onLeaveBack: () => nav.classList.remove('scrolled'),
   });
 
-  /* ─── THEME INVERSION (light → dark) ─── */
-  const firstDark = document.querySelector('.featured');
-  if (firstDark) {
+  /* ─── THEME INVERSION (multi-zone light ↔ dark) ─── */
+  /* any dark section occupying the top of the viewport flips the page chrome */
+  const darkActive = new Set();
+  document.querySelectorAll('.section-dark').forEach(sec => {
     ScrollTrigger.create({
-      trigger: firstDark, start: 'top 10%', end: 'bottom top',
-      onEnter: () => document.body.classList.add('dark'),
-      onEnterBack: () => document.body.classList.add('dark'),
-      onLeaveBack: () => document.body.classList.remove('dark'),
+      trigger: sec, start: 'top 14%', end: 'bottom 14%',
+      onToggle: self => {
+        if (self.isActive) darkActive.add(sec); else darkActive.delete(sec);
+        document.body.classList.toggle('dark', darkActive.size > 0);
+      },
     });
-  }
+  });
 
   /* ─── SMOOTH ANCHORS ─── */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
@@ -223,9 +225,10 @@
   if (!reduced && !isMobile() && grid && projCards.length) {
     const n = projCards.length;
     const stackX = () => grid.offsetWidth / 2;
-    const stackY = () => grid.offsetHeight * 0.13;
+    const stackY = () => grid.offsetHeight * 0.18;
+    // short, snappy: the deck spreads over a small slice of scroll
     const tl = gsap.timeline({
-      scrollTrigger: { trigger: grid, start: 'top 80%', end: 'top 18%', scrub: 0.85, invalidateOnRefresh: true },
+      scrollTrigger: { trigger: grid, start: 'top 78%', end: 'top 44%', scrub: 0.6, invalidateOnRefresh: true },
     });
     projCards.forEach((card, i) => {
       gsap.set(card, { zIndex: n - i, transformOrigin: '50% 50%', opacity: 1 });
@@ -233,8 +236,8 @@
       tl.fromTo(card, {
         x: () => stackX() - (card.offsetLeft + card.offsetWidth / 2),
         y: () => stackY() - (card.offsetTop + card.offsetHeight / 2),
-        rotation: fan * 4, scale: 0.7,
-      }, { x: 0, y: 0, rotation: 0, scale: 1, ease: 'power2.out', duration: 1 }, i * 0.07);
+        rotation: fan * 6, scale: 0.5,
+      }, { x: 0, y: 0, rotation: 0, scale: 1, ease: 'power3.out', duration: 1 }, i * 0.05);
     });
   } else if (!reduced && grid) {
     // mobile: lighter staggered reveal
