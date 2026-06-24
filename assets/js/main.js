@@ -84,6 +84,15 @@
   if (menuToggle) menuToggle.addEventListener('click', () => menuOpen ? closeMobileMenu() : openMobileMenu());
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
 
+  /* ─── THEME TOGGLE (dark default · light optional) ─── */
+  const themeToggle = document.getElementById('themeToggle');
+  let theme = 'dark'; try { theme = localStorage.getItem('hfp-theme') || 'dark'; } catch (_) {}
+  if (theme === 'light') document.body.classList.add('light');
+  if (themeToggle) themeToggle.addEventListener('click', () => {
+    const light = document.body.classList.toggle('light');
+    try { localStorage.setItem('hfp-theme', light ? 'light' : 'dark'); } catch (_) {}
+  });
+
   /* ─── TONAL BACKDROP for contained images ─── */
   function applyTone(img) {
     const host = img.closest('.proj-media-contain') || img.closest('.g-contain');
@@ -242,27 +251,26 @@
     }
   }
 
+  /* CSS-driven open/close (no JS-ticker dependency → always works) */
   function openOverlay(id) {
     overlayOpenId = id; lastFocused = document.activeElement;
     fillOverlay(id);
     overlay.classList.add('open'); overlay.setAttribute('aria-hidden', 'false');
     if (ovScroll) ovScroll.scrollTop = 0;
     lenis.stop();
-    if (reduced) { gsap.set(ovPanel, { opacity: 1, scale: 1, y: 0 }); }
-    else { gsap.fromTo(ovPanel, { opacity: 0, scale: 0.965, y: 24 }, { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: 'power3.out', delay: 0.05 }); }
     document.getElementById('overlayClose').focus();
   }
   function closeOverlay() {
     if (!overlayOpenId) return;
-    const done = () => { overlay.classList.remove('open'); overlay.setAttribute('aria-hidden', 'true'); overlayOpenId = null; lenis.start(); if (lastFocused) lastFocused.focus(); };
-    if (reduced) { done(); return; }
-    gsap.to(ovPanel, { opacity: 0, scale: 0.97, y: 16, duration: 0.32, ease: 'power2.in', onComplete: done });
+    overlay.classList.remove('open'); overlay.setAttribute('aria-hidden', 'true');
+    overlayOpenId = null; lenis.start();
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
   }
   document.querySelectorAll('.proj-open').forEach(btn => btn.addEventListener('click', () => openOverlay(btn.dataset.project)));
   document.getElementById('overlayClose').addEventListener('click', closeOverlay);
   document.getElementById('overlayBackdrop').addEventListener('click', closeOverlay);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlayOpenId) closeOverlay(); });
-  function step(dir) { if (!overlayOpenId) return; const i = ORDER.indexOf(overlayOpenId); const next = ORDER[(i + dir + ORDER.length) % ORDER.length]; overlayOpenId = next; fillOverlay(next); if (ovScroll) ovScroll.scrollTop = 0; if (!reduced) gsap.fromTo(ovPanel, { opacity: 0.4, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }); }
+  function step(dir) { if (!overlayOpenId) return; const i = ORDER.indexOf(overlayOpenId); const next = ORDER[(i + dir + ORDER.length) % ORDER.length]; overlayOpenId = next; fillOverlay(next); if (ovScroll) ovScroll.scrollTop = 0; }
   document.getElementById('ovPrev').addEventListener('click', () => step(-1));
   document.getElementById('ovNext').addEventListener('click', () => step(1));
 
