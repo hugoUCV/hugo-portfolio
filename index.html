@@ -14,9 +14,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/style.css?v=5b" />
+  <link rel="stylesheet" href="assets/css/style.css?v=6" />
 </head>
 <body>
+  <div class="curtain"></div>
   <!-- ═══ INTRO / OPENING ═══ -->
   <div class="intro" id="intro">
     <div class="intro-inner">
@@ -107,6 +108,7 @@
           <a href="#work" class="btn btn-primary magnetic" data-i18n="hero.ctaWork">Ver proyectos</a>
           <a href="#contact" class="btn btn-ghost magnetic" data-i18n="hero.ctaContact">Contacto</a>
         </div>
+        <div class="hero-portrait" aria-hidden="true"><img src="images/hugo.jpg" alt="Hugo Ferrer Plaza" loading="lazy" onerror="this.closest('.hero-portrait').remove()" /></div>
       </div>
       <div class="hero-foot mono">
         <span data-i18n="hero.metaLoc">Valencia, España</span>
@@ -124,57 +126,57 @@
 
       <div class="proj-grid" id="projGrid">
         <article class="proj-card proj-card-feat" data-project="ecos">
-          <button class="proj-open" data-project="ecos" aria-label="Ecos de Xàtiva">
+          <a class="proj-open" href="ecos.html" aria-label="Ecos de Xàtiva">
             <span class="proj-media"><img src="images/ecos/CampoEntrenamiento1.jpg" alt="Ecos de Xàtiva — escena VR" loading="lazy" /></span>
             <span class="proj-info">
               <span class="proj-row"><span class="proj-title" data-i18n="projects.ecos.t">Ecos de Xàtiva</span><span class="proj-tag mono" data-i18n="projects.ecos.tag">Experiencia VR</span></span>
               <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
             </span>
-          </button>
+          </a>
         </article>
 
         <article class="proj-card" data-project="mexican">
-          <button class="proj-open" data-project="mexican" aria-label="Mexican Town">
+          <a class="proj-open" href="mexican.html" aria-label="Mexican Town">
             <span class="proj-media"><img src="images/behance/mexican.jpg" alt="Mexican Town — entorno 3D" loading="lazy" /></span>
             <span class="proj-info">
               <span class="proj-row"><span class="proj-title" data-i18n="projects.mexican.t">Mexican Town</span><span class="proj-tag mono" data-i18n="projects.mexican.tag">Entorno 3D</span></span>
               <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
             </span>
-          </button>
+          </a>
         </article>
 
         <article class="proj-card proj-card-portrait" data-project="shanYun">
-          <button class="proj-open" data-project="shanYun" aria-label="Shan Yun">
+          <a class="proj-open" href="shanyun.html" aria-label="Shan Yun">
             <span class="proj-media proj-media-contain"><img src="images/behance/shanyun.jpg" alt="Shan Yun — character study" loading="lazy" /></span>
             <span class="proj-info">
               <span class="proj-row"><span class="proj-title" data-i18n="projects.shanYun.t">Shan Yun</span><span class="proj-tag mono" data-i18n="projects.shanYun.tag">Character Study</span></span>
               <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
             </span>
-          </button>
+          </a>
         </article>
 
         <article class="proj-card proj-card-wide" data-project="tank">
-          <button class="proj-open" data-project="tank" aria-label="Creative Artillery">
+          <a class="proj-open" href="tank.html" aria-label="Creative Artillery">
             <span class="proj-media"><img src="images/behance/tank.jpg" alt="Creative Artillery — tanque estilizado" loading="lazy" /></span>
             <span class="proj-info">
               <span class="proj-row"><span class="proj-title" data-i18n="projects.tank.t">Creative Artillery</span><span class="proj-tag mono" data-i18n="projects.tank.tag">Estilizado</span></span>
               <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
             </span>
-          </button>
+          </a>
         </article>
 
         <article class="proj-card proj-card-portrait" data-project="c4d">
-          <button class="proj-open" data-project="c4d" aria-label="Cinema 4D Showcase">
+          <a class="proj-open" href="cinema4d.html" aria-label="Cinema 4D Showcase">
             <span class="proj-media proj-media-contain"><img src="images/behance/c4d.jpg" alt="Cinema 4D Showcase" loading="lazy" /></span>
             <span class="proj-info">
               <span class="proj-row"><span class="proj-title" data-i18n="projects.c4d.t">Cinema 4D Showcase</span><span class="proj-tag mono" data-i18n="projects.c4d.tag">Hard-surface</span></span>
               <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
             </span>
-          </button>
+          </a>
         </article>
 
         <article class="proj-card" data-project="porsche">
-          <button class="proj-open" data-project="porsche" aria-label="PORSCHE">
+          <a class="proj-open" href="porsche.html" aria-label="PORSCHE">
             <span class="proj-media proj-media-video">
               <span class="video-badge mono"><span class="play-tri"></span><span data-i18n="work.video">Proyecto en vídeo</span></span>
             </span>
@@ -182,7 +184,7 @@
               <span class="proj-row"><span class="proj-title" data-i18n="projects.porsche.t">PORSCHE</span><span class="proj-tag mono" data-i18n="projects.porsche.tag">Cinematografía</span></span>
               <span class="proj-cta mono"><span data-i18n="work.cta">Ver proyecto</span> →</span>
             </span>
-          </button>
+          </a>
         </article>
       </div>
     </section>
@@ -218,6 +220,7 @@
       </div>
       <div class="about-body">
         <div class="about-bios">
+          <div class="about-portrait"><img src="images/hugo.jpg" alt="Hugo Ferrer Plaza, graduado en DNAV (UCV)" loading="lazy" onerror="this.closest('.about-portrait').remove()" /></div>
           <p class="about-bio lead" data-i18n="about.bio"></p>
           <p class="about-bio" data-i18n="about.bio2"></p>
           <div class="about-stats">
@@ -257,7 +260,13 @@
       <span class="section-label mono" data-i18n="contact.label">( Hablemos )</span>
       <h2 class="contact-big" data-i18n="contact.title">Creemos algo juntos</h2>
       <p class="contact-sub" data-i18n="contact.sub"></p>
-      <a href="mailto:zizekrp02@gmail.com" class="contact-email magnetic">zizekrp02@gmail.com</a>
+      <a href="mailto:hugo.ferrer@mail.ucv.es" class="contact-email magnetic">hugo.ferrer@mail.ucv.es</a>
+      <a href="tel:+34601307544" class="contact-phone magnetic">601 307 544</a>
+      <div class="contact-actions">
+        <button class="c-btn" data-copy="hugo.ferrer@mail.ucv.es"><span class="copy-lbl" data-i18n="contact.copy">Copiar</span>&nbsp;email</button>
+        <button class="c-btn" data-copy="601307544"><span class="copy-lbl" data-i18n="contact.copy">Copiar</span>&nbsp;tel.</button>
+        <button class="c-btn" id="vcardBtn" data-i18n="contact.vcard">Descargar contacto</button>
+      </div>
     </section>
 
     <footer class="site-footer">
@@ -267,33 +276,10 @@
     </footer>
   </main>
 
-  <!-- ═══ PROJECT OVERLAY (reusable, filled by JS) ═══ -->
-  <div class="overlay" id="overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Proyecto">
-    <div class="overlay-backdrop" id="overlayBackdrop"></div>
-    <div class="overlay-panel" id="overlayPanel">
-      <button class="overlay-close" id="overlayClose" aria-label="Cerrar">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 5 L19 19 M19 5 L5 19" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
-      </button>
-      <div class="overlay-scroll" id="overlayScroll">
-        <header class="overlay-head">
-          <span class="overlay-tag mono" id="ovTag"></span>
-          <h2 class="overlay-title" id="ovTitle"></h2>
-          <p class="overlay-meta mono" id="ovMeta"></p>
-          <p class="overlay-desc" id="ovDesc"></p>
-        </header>
-        <div class="overlay-gallery" id="ovGallery"></div>
-        <nav class="overlay-nav">
-          <button class="ov-nav-btn mono" id="ovPrev"><span>←</span> <span data-i18n="work.prev">Anterior</span></button>
-          <button class="ov-nav-btn mono" id="ovNext"><span data-i18n="work.next">Siguiente</span> <span>→</span></button>
-        </nav>
-      </div>
-    </div>
-  </div>
-
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-  <script src="assets/js/i18n.js?v=5b"></script>
-  <script src="assets/js/main.js?v=5b"></script>
+  <script src="assets/js/i18n.js?v=6"></script>
+  <script src="assets/js/main.js?v=6"></script>
 </body>
 </html>

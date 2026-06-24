@@ -8,31 +8,6 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = () => window.innerWidth <= 768;
 
-  /* ─── PROJECT DATA (galleries are static; text comes from i18n) ─── */
-  const ORDER = ['ecos', 'mexican', 'shanYun', 'tank', 'c4d', 'porsche'];
-  const PROJECTS = {
-    ecos: { images: [
-      { src: 'images/ecos/CampoEntrenamiento1.jpg', cls: 'g-full' },
-      { src: 'images/ecos/MenuInicio.jpg' },
-      { src: 'images/ecos/MuseoInterior1.jpg' },
-      { src: 'images/ecos/MuseoInterior2.jpg', cls: 'g-full' },
-      { src: 'images/ecos/EspadaRender.jpg', cls: 'g-tall' },
-      { src: 'images/ecos/Ballesta4k.jpg' },
-      { src: 'images/ecos/Cannon.jpg' },
-      { src: 'images/ecos/ArmaduraEscudo.jpg' },
-      { src: 'images/ecos/PersonajeGuia.jpg' },
-      { src: 'images/ecos/PropsModularesShowcase.jpg', cls: 'g-full' },
-      { src: 'images/ecos/CampoEntrenamiento2.jpg' },
-      { src: 'images/ecos/CampoEntrenamiento3.jpg' },
-      { src: 'images/ecos/RenderEstudio_v2.jpg', cls: 'g-full' },
-    ]},
-    mexican: { images: [ { src: 'images/behance/mexican.jpg', cls: 'g-full' } ] },
-    shanYun: { images: [ { src: 'images/behance/shanyun.jpg', cls: 'g-contain g-full' } ] },
-    tank:    { images: [ { src: 'images/behance/tank.jpg', cls: 'g-full' } ] },
-    c4d:     { images: [ { src: 'images/behance/c4d.jpg', cls: 'g-contain g-full' } ] },
-    porsche: { images: [], video: true },
-  };
-
   /* ─── LENIS ─── */
   const lenis = new Lenis({ duration: 1.25, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, wheelMultiplier: 0.95 });
   gsap.registerPlugin(ScrollTrigger);
@@ -165,7 +140,7 @@
       gsap.fromTo(cycleEl, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: 'power3.out' });
     }});
   }
-  window.addEventListener('hfp:lang', () => { readCycle(); cycleIdx = 0; if (cycleEl) cycleEl.textContent = cycleWords[0]; if (overlayOpenId) fillOverlay(overlayOpenId); });
+  window.addEventListener('hfp:lang', () => { readCycle(); cycleIdx = 0; if (cycleEl) cycleEl.textContent = cycleWords[0]; });
   readCycle(); if (cycleEl) { cycleEl.textContent = cycleWords[0]; setInterval(spinCycle, 2200); }
 
   /* ─── REVEALS ─── */
@@ -219,60 +194,31 @@
     });
   }
 
-  /* ═══ PROJECT OVERLAY (integrated, no redirects) ═══ */
-  const overlay = document.getElementById('overlay');
-  const ovPanel = document.getElementById('overlayPanel');
-  const ovScroll = document.getElementById('overlayScroll');
-  const ovTag = document.getElementById('ovTag');
-  const ovTitle = document.getElementById('ovTitle');
-  const ovMeta = document.getElementById('ovMeta');
-  const ovDesc = document.getElementById('ovDesc');
-  const ovGallery = document.getElementById('ovGallery');
-  let overlayOpenId = null;
-  let lastFocused = null;
+  /* ═══ PAGE CURTAIN (navigation transition) ═══ */
+  window.__lenis = lenis;
+  const curtain = document.querySelector('.curtain');
+  if (curtain) { requestAnimationFrame(() => curtain.classList.add('up')); setTimeout(() => curtain.classList.add('up'), 700); }
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href]'); if (!a || !curtain) return;
+    const href = a.getAttribute('href');
+    if (a.target === '_blank' || href.startsWith('#') || /^(https?:|mailto:|tel:)/.test(href)) return;
+    e.preventDefault(); curtain.classList.remove('up'); setTimeout(() => { window.location.href = href; }, 520);
+  });
 
-  function fillOverlay(id) {
-    const t = window.__i18n.get(); const p = (t.projects && t.projects[id]) || {};
-    ovTag.textContent = p.tag || ''; ovTitle.textContent = p.t || ''; ovMeta.textContent = p.meta || ''; ovDesc.textContent = p.desc || '';
-    ovGallery.innerHTML = '';
-    const data = PROJECTS[id] || { images: [] };
-    if (data.video && !data.images.length) {
-      const note = document.createElement('div');
-      note.className = 'g-full g-contain'; note.style.minHeight = '320px'; note.style.display = 'flex'; note.style.alignItems = 'center'; note.style.justifyContent = 'center';
-      note.innerHTML = `<span class="video-badge mono"><span class="play-tri"></span><span>${(t.work && t.work.video) || 'Video'}</span></span>`;
-      ovGallery.appendChild(note);
-    } else {
-      data.images.forEach(im => {
-        const fig = document.createElement('figure'); if (im.cls) fig.className = im.cls;
-        const img = document.createElement('img'); img.src = im.src; img.alt = (p.t || '') + ' — ' + (p.tag || ''); img.loading = 'lazy';
-        fig.appendChild(img); ovGallery.appendChild(fig);
-      });
-      toneAll(ovGallery);
-    }
-  }
-
-  /* CSS-driven open/close (no JS-ticker dependency → always works) */
-  function openOverlay(id) {
-    overlayOpenId = id; lastFocused = document.activeElement;
-    fillOverlay(id);
-    overlay.classList.add('open'); overlay.setAttribute('aria-hidden', 'false');
-    if (ovScroll) ovScroll.scrollTop = 0;
-    lenis.stop();
-    document.getElementById('overlayClose').focus();
-  }
-  function closeOverlay() {
-    if (!overlayOpenId) return;
-    overlay.classList.remove('open'); overlay.setAttribute('aria-hidden', 'true');
-    overlayOpenId = null; lenis.start();
-    if (lastFocused && lastFocused.focus) lastFocused.focus();
-  }
-  document.querySelectorAll('.proj-open').forEach(btn => btn.addEventListener('click', () => openOverlay(btn.dataset.project)));
-  document.getElementById('overlayClose').addEventListener('click', closeOverlay);
-  document.getElementById('overlayBackdrop').addEventListener('click', closeOverlay);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && overlayOpenId) closeOverlay(); });
-  function step(dir) { if (!overlayOpenId) return; const i = ORDER.indexOf(overlayOpenId); const next = ORDER[(i + dir + ORDER.length) % ORDER.length]; overlayOpenId = next; fillOverlay(next); if (ovScroll) ovScroll.scrollTop = 0; }
-  document.getElementById('ovPrev').addEventListener('click', () => step(-1));
-  document.getElementById('ovNext').addEventListener('click', () => step(1));
+  /* ═══ CONTACT: copy + vCard ═══ */
+  document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(btn.dataset.copy); } catch (_) {}
+    const lbl = btn.querySelector('.copy-lbl'); if (!lbl) return;
+    const o = lbl.textContent; let t; try { t = window.__i18n.get(); } catch (_) {}
+    lbl.textContent = (t && t.contact && t.contact.copied) || '¡Copiado!'; btn.classList.add('copied');
+    setTimeout(() => { lbl.textContent = o; btn.classList.remove('copied'); }, 1600);
+  }));
+  const vcardBtn = document.getElementById('vcardBtn');
+  if (vcardBtn) vcardBtn.addEventListener('click', () => {
+    const v = ['BEGIN:VCARD','VERSION:3.0','FN:Hugo Ferrer Plaza','N:Ferrer Plaza;Hugo;;;','TITLE:3D Generalist','EMAIL;TYPE=INTERNET:hugo.ferrer@mail.ucv.es','TEL;TYPE=CELL:601307544','ADR;TYPE=HOME:;;Valencia;;;;Spain','URL:https://hugoucv.github.io/hugo-portfolio/','END:VCARD'].join('\r\n');
+    const blob = new Blob([v], { type: 'text/vcard' }); const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'Hugo-Ferrer-Plaza.vcf'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  });
 
   /* ─── RESIZE ─── */
   let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => ScrollTrigger.refresh(), 200); });

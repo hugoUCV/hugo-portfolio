@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creative Artillery — Hugo Ferrer Plaza</title>
+  <meta name="description" content="Creative Artillery — tanque estilizado. Case study de Hugo Ferrer Plaza." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <meta property="og:title" content="Creative Artillery — Hugo Ferrer Plaza" />
+  <meta property="og:image" content="images/behance/tank.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=Fragment+Mono:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css?v=6" />
+</head>
+<body class="proj-page">
+  <div class="curtain"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <header class="nav" id="nav">
+    <a href="index.html" class="nav-logo magnetic" aria-label="Hugo Ferrer Plaza — inicio">
+      <svg class="logo-mark logo-svg" viewBox="0 0 64 64" width="30" height="30" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M32 5 L55 18.5 L55 45.5 L32 59 L9 45.5 L9 18.5 Z"/>
+          <path d="M32 32 L9 18.5 M32 32 L55 18.5 M32 32 L32 59"/>
+        </g><circle cx="32" cy="32" r="2.6" fill="var(--accent)"/>
+      </svg>
+      <span class="logo-word">Hugo Ferrer</span>
+    </a>
+    <div class="nav-right">
+      <div class="lang-switcher" role="group" aria-label="Idioma">
+        <button class="lang-btn" data-lang="es" aria-pressed="true">ES</button>
+        <button class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        <button class="lang-btn" data-lang="va" aria-pressed="false">VAL</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema claro/oscuro">
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12h2.5M19 12h2.5M5 5l1.8 1.8M17.2 17.2L19 19M19 5l-1.8 1.8M5 19l1.8-1.8"/></svg>
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4 6.5 6.5 0 0 0 20 14.5z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="proj" data-project="tank"></main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Imagen">
+    <div class="lb-backdrop"></div>
+    <button class="lb-close" aria-label="Cerrar">✕</button>
+    <button class="lb-prev" aria-label="Anterior">‹</button>
+    <button class="lb-next" aria-label="Siguiente">›</button>
+    <img class="lb-img" src="" alt="" />
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="assets/js/i18n.js?v=6"></script>
+  <script src="assets/js/project.js?v=6"></script>
+</body>
+</html>
