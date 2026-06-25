@@ -220,6 +220,25 @@
     const a = document.createElement('a'); a.href = url; a.download = 'Hugo-Ferrer-Plaza.vcf'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
   });
 
+  /* ─── COUNT-UP STATS ─── */
+  if (!reduced) {
+    document.querySelectorAll('.stat-num').forEach(el => {
+      const raw = el.textContent.trim(); const target = parseInt(raw, 10);
+      if (isNaN(target)) return; const suffix = raw.replace(/[0-9]/g, '');
+      ScrollTrigger.create({ trigger: el, start: 'top 92%', once: true, onEnter: () => {
+        const o = { v: 0 }; gsap.to(o, { v: target, duration: 1.2, ease: 'power2.out', onUpdate() { el.textContent = Math.round(o.v) + suffix; } });
+      }});
+    });
+  }
+
+  /* ─── FLOATING BACK-TO-TOP ─── */
+  (function () {
+    const b = document.createElement('button'); b.className = 'to-top-btn'; b.setAttribute('aria-label', 'Subir'); b.innerHTML = '↑';
+    document.body.appendChild(b);
+    b.addEventListener('click', () => lenis.scrollTo(0, { duration: 1.2 }));
+    lenis.on('scroll', () => b.classList.toggle('show', window.scrollY > window.innerHeight * 0.8));
+  })();
+
   /* ─── RESIZE ─── */
   let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => ScrollTrigger.refresh(), 200); });
   window.addEventListener('load', () => ScrollTrigger.refresh());
