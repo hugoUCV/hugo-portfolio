@@ -128,9 +128,11 @@
 
     /* hero */
     const galN = (d.gallery ? d.gallery.length : 0) + (d.wireframe ? d.wireframe.length : 0) + (d.hero ? 1 : 0);
+    const cell = g => `<figure class="ph-cell ${g.cls}" data-cat="${g.cat}"><img src="${g.src}" alt="${pj.t || ''} — ${g.cat}" loading="lazy" /></figure>`;
     h += `<header class="ph-hero">
       <a class="ph-back mono" href="index.html#work">← <span>${pg.back || 'Proyectos'}</span></a>
       <button class="ph-share mono" id="shareBtn">⤴ <span class="share-lbl">${pg.share || 'Share'}</span></button>
+      ${(d.gallery && d.gallery.length) ? `<button class="ph-share mono" id="cineBtn">▶ <span>${pg.cine || 'Cinema'}</span></button>` : ''}
       <br>
       <span class="ph-tag mono">${pj.tag || ''}</span>
       <h1 class="ph-title">${pj.t || ''}</h1>
@@ -145,21 +147,22 @@
       h += `<figure class="ph-heromedia reveal-img${d.heroContain ? ' g-contain' : ''}"><img src="${d.hero}" alt="${pj.t || ''}" /></figure>`;
     }
 
-    /* filters (ecos) */
-    if (d.filters) {
-      h += `<div class="ph-filters">` + d.filters.map((f, i) =>
-        `<button class="filt-chip mono${i === 0 ? ' active' : ''}" data-filter="${f}">${f === 'all' ? (filt.all || 'All') : (filt[f] || f)}</button>`).join('') + `</div>`;
-    }
-
-    /* gallery */
+    /* gallery — Ecos: by-category sections (scroll-spy index); others: simple grid */
     if (d.gallery && d.gallery.length) {
-      h += `<div class="ph-gallery" id="phGallery">` + d.gallery.map(g =>
-        `<figure class="ph-cell ${g.cls}" data-cat="${g.cat}"><img src="${g.src}" alt="${pj.t || ''} — ${g.cat}" loading="lazy" /></figure>`).join('') + `</div>`;
+      if (d.filters) {
+        ['env', 'props', 'chars', 'ui', 'tut'].forEach(cat => {
+          const imgs = d.gallery.filter(g => g.cat === cat); if (!imgs.length) return;
+          const lbl = sec[cat] || cat;
+          h += `<section class="ph-sec" id="sec-${cat}" data-toc="${lbl}"><h2 class="ph-sectitle">${lbl}</h2><div class="ph-gallery">` + imgs.map(cell).join('') + `</div></section>`;
+        });
+      } else {
+        h += `<div class="ph-gallery" id="phGallery">` + d.gallery.map(cell).join('') + `</div>`;
+      }
     }
 
     /* render ↔ wireframe */
     if (d.wireframe && d.wireframe.length) {
-      h += `<section class="ph-sec" data-cat="wire"><h2 class="ph-sectitle">${sec.wire || 'Render / Wireframe'}</h2>
+      h += `<section class="ph-sec" id="sec-wire" data-toc="${sec.wire || 'Wireframe'}"><h2 class="ph-sectitle">${sec.wire || 'Render / Wireframe'}</h2>
         <p class="ph-sechint mono">${pg.wireHint || ''}</p><div class="wfx-grid">` +
         d.wireframe.map(p => `<div class="wfx" tabindex="0" role="slider" aria-label="Render / wireframe" aria-valuenow="50">
           <img class="wfx-base" src="${p.r}" alt="render" loading="lazy" />
@@ -170,7 +173,7 @@
 
     /* credits */
     if (d.credits && d.credits.length) {
-      h += `<section class="ph-credits"><span class="mono">${sec.credits || 'Credits'}</span><div class="ph-logos">` +
+      h += `<section class="ph-credits" id="sec-credits" data-toc="${sec.credits || 'Credits'}"><span class="mono">${sec.credits || 'Credits'}</span><div class="ph-logos">` +
         d.credits.map(c => `<img src="${c}" alt="logo" loading="lazy" />`).join('') + `</div></section>`;
     }
 
@@ -186,8 +189,78 @@
   }
 
   function afterBuild() {
-    initReveals(); initWireframe(); initFilters(); initLightbox(); initMagnetic(); initShare();
+    initReveals(); initWireframe(); initLightbox(); initMagnetic(); initShare(); initTOC(); initCinema();
     if (window.ScrollTrigger) ScrollTrigger.refresh();
+  }
+
+  /* ─── floating section index (scroll-spy) ─── */
+  function initTOC() {
+    const old = document.querySelector('.proj-toc'); if (old) old.remove();
+    const secs = [...document.querySelectorAll('.ph-sec[id], .ph-credits[id]')];
+    if (secs.length < 2) return;
+    const rail = document.createElement('nav'); rail.className = 'proj-toc'; rail.setAttribute('aria-label', 'Secciones');
+    secs.forEach(s => {
+      const lbl = s.getAttribute('data-toc') || '';
+      const a = document.createElement('a'); a.href = '#' + s.id;
+      a.innerHTML = `<span class="dot"></span><span class="toc-lbl">${lbl}</span>`;
+      a.addEventListener('click', e => { e.preventDefault(); const el = document.getElementById(s.id); if (window.__lenis) window.__lenis.scrollTo(el, { offset: -80 }); else el.scrollIntoView({ behavior: 'smooth' }); });
+      rail.appendChild(a);
+    });
+    document.body.appendChild(rail);
+    const links = [...rail.querySelectorAll('a')];
+    const io = new IntersectionObserver(es => {
+      es.forEach(en => { if (en.isIntersecting) { const i = secs.indexOf(en.target); links.forEach((l, j) => l.classList.toggle('active', j === i)); } });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    secs.forEach(s => io.observe(s));
+  }
+
+  /* ─── cinema mode (fullscreen showreel) ─── */
+  let cineTimer = null;
+  function initCinema() {
+    const old = document.getElementById('cine'); if (old) old.remove();
+    if (cineTimer) { clearTimeout(cineTimer); cineTimer = null; }
+    const imgs = [...document.querySelectorAll('.ph-gallery .ph-cell img')].map(i => i.src);
+    const btn = document.getElementById('cineBtn');
+    if (!imgs.length) { if (btn) btn.style.display = 'none'; return; }
+    const c = document.createElement('div'); c.id = 'cine'; c.className = 'cine';
+    c.innerHTML = '<div class="cine-bar"></div><img class="cine-img" data-l="a" alt=""><img class="cine-img" data-l="b" alt=""><div class="cine-count mono"></div><button class="cine-close" aria-label="Cerrar">✕</button><div class="cine-ctrl"><button class="cine-btn" data-c="prev" aria-label="Anterior">‹</button><button class="cine-btn" data-c="play" aria-label="Pausa">❚❚</button><button class="cine-btn" data-c="next" aria-label="Siguiente">›</button></div>';
+    document.body.appendChild(c);
+    const layers = [c.querySelector('[data-l="a"]'), c.querySelector('[data-l="b"]')];
+    const bar = c.querySelector('.cine-bar'), count = c.querySelector('.cine-count'), playBtn = c.querySelector('[data-c="play"]');
+    let idx = 0, front = 0, playing = true;
+    function runBar() {
+      clearTimeout(cineTimer);
+      if (!playing || reduced) { bar.style.transition = 'none'; bar.style.width = '0'; return; }
+      bar.style.transition = 'none'; bar.style.width = '0'; void bar.offsetWidth; bar.style.transition = 'width 4.2s linear'; bar.style.width = '100%';
+      cineTimer = setTimeout(() => go(1), 4200);
+    }
+    function paint() {
+      const back = 1 - front, lb = layers[back];
+      lb.src = imgs[idx]; lb.classList.add('show'); lb.classList.remove('kb'); void lb.offsetWidth; if (!reduced) lb.classList.add('kb');
+      layers[front].classList.remove('show'); front = back;
+      count.textContent = (idx + 1) + ' / ' + imgs.length; runBar();
+    }
+    function go(d) { idx = (idx + d + imgs.length) % imgs.length; paint(); }
+    function setPlay(p) { playing = p; playBtn.textContent = p ? '❚❚' : '▶'; runBar(); }
+    function openCine() { idx = 0; front = 0; layers[1].classList.remove('show'); layers[0].src = imgs[0]; layers[0].classList.add('show'); layers[0].classList.remove('kb'); if (!reduced) layers[0].classList.add('kb'); count.textContent = '1 / ' + imgs.length; c.classList.add('open'); if (window.__lenis) window.__lenis.stop(); setPlay(true); if (c.requestFullscreen) c.requestFullscreen().catch(() => {}); }
+    function closeCine() { c.classList.remove('open'); clearTimeout(cineTimer); if (window.__lenis) window.__lenis.start(); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); }
+    c.querySelector('.cine-close').addEventListener('click', closeCine);
+    c.querySelector('[data-c="prev"]').addEventListener('click', () => go(-1));
+    c.querySelector('[data-c="next"]').addEventListener('click', () => go(1));
+    playBtn.addEventListener('click', () => setPlay(!playing));
+    if (btn) { btn.style.display = ''; btn.onclick = openCine; }
+    cineAPI = { open: openCine, close: closeCine, go, toggle: () => setPlay(!playing), isOpen: () => c.classList.contains('open') };
+  }
+  let cineAPI = null;
+  if (!window.__cineKey) {
+    window.__cineKey = true;
+    document.addEventListener('keydown', e => {
+      if (!cineAPI || !cineAPI.isOpen()) return;
+      if (e.key === 'Escape') cineAPI.close();
+      else if (e.key === 'ArrowRight') cineAPI.go(1);
+      else if (e.key === 'ArrowLeft') cineAPI.go(-1);
+      else if (e.key === ' ') { e.preventDefault(); cineAPI.toggle(); }
+    });
   }
 
   /* ─── share (Web Share + clipboard fallback) ─── */
