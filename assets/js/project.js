@@ -6,7 +6,7 @@
 (function () {
   'use strict';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const E = 'images/ecos/', P = 'images/behance/';
+  const E = 'images/ecos/', P = 'images/behance/', PR = 'images/projects/';
 
   /* ─── DATA (text comes from i18n projects.*) ─── */
   const ORDER = ['ecos', 'mexican', 'shanyun', 'porsche', 'cinema4d', 'tank'];
@@ -46,9 +46,22 @@
       filters: ['all','env','wire','props','chars','ui','tut'],
     },
     mexican: { hero: P+'mexican.jpg', gallery: [ im(P+'mexican.jpg','g-full','env') ] },
-    shanyun: { hero: P+'shanyun.jpg', heroContain: true, gallery: [ im(P+'shanyun.jpg','g-contain g-full','chars') ] },
+    shanyun: { hero: PR+'shanyun-01.jpg', gallery: [
+      im(PR+'shanyun-02.jpg','g-full','chars'), im(PR+'shanyun-03.jpg','','chars'), im(PR+'shanyun-04.jpg','','chars'),
+      im(PR+'shanyun-08.jpg','g-full','chars'), im(PR+'shanyun-05.jpg','','chars'), im(PR+'shanyun-06.jpg','','chars'),
+      im(PR+'shanyun-12.jpg','g-tall','chars'), im(PR+'shanyun-13.jpg','g-tall','chars'), im(PR+'shanyun-07.jpg','','chars'),
+      im(PR+'shanyun-09.jpg','','chars'), im(PR+'shanyun-11.jpg','g-full','chars'), im(PR+'shanyun-10.jpg','','chars'),
+      im(PR+'shanyun-14.jpg','','chars'),
+    ] },
     porsche: { hero: null, video: true, gallery: [] },
-    cinema4d:{ hero: P+'c4d.jpg', heroContain: true, gallery: [ im(P+'c4d.jpg','g-contain g-full','props') ] },
+    cinema4d:{ hero: PR+'c4d-01.jpg', gallery: [
+      im(PR+'c4d-02.jpg','g-tall','props'), im(PR+'c4d-03.jpg','','props'), im(PR+'c4d-04.jpg','','props'),
+      im(PR+'c4d-19.jpg','g-full','props'), im(PR+'c4d-05.jpg','','props'), im(PR+'c4d-06.jpg','','props'),
+      im(PR+'c4d-15.jpg','g-tall','props'), im(PR+'c4d-07.jpg','','props'), im(PR+'c4d-08.jpg','','props'),
+      im(PR+'c4d-09.jpg','','props'), im(PR+'c4d-10.jpg','','props'), im(PR+'c4d-11.jpg','','props'),
+      im(PR+'c4d-12.jpg','','props'), im(PR+'c4d-13.jpg','','props'), im(PR+'c4d-14.jpg','','props'),
+      im(PR+'c4d-16.jpg','','props'), im(PR+'c4d-17.jpg','','props'), im(PR+'c4d-18.jpg','','props'),
+    ] },
     tank:    { hero: P+'tank.jpg', gallery: [ im(P+'tank.jpg','g-full','props') ] },
   };
 
